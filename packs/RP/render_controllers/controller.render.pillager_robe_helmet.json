@@ -1,0 +1,31 @@
+{
+  "format_version": "1.8.0",
+  "render_controllers": {
+    "controller.render.pillager_robe_helmet": {
+      "arrays": {
+        "textures": {
+          "array.helmets": [
+            "texture.helmet_normal",
+            "texture.helmet_down"
+          ]
+        },
+        "geometries": {
+          "array.helmets": [
+            "geometry.helmet_normal",
+            "geometry.helmet_down"
+          ]
+        }
+      },
+      "geometry": "q.is_item_name_any('slot.armor.head', '') ? array.helmets[0] : array.helmets[1]",
+      "textures": [
+        "q.is_item_name_any('slot.armor.head', '') ? array.helmets[0] : array.helmets[1]",
+        "texture.enchanted"
+      ],
+      "materials": [
+        {
+          "*": "variable.is_enchanted ? material.enchanted : Material.default"
+        }
+      ]
+    }
+  }
+}
