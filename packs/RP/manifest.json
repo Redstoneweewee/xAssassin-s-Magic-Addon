@@ -1,0 +1,24 @@
+{
+    "format_version": 2,
+    "header": {
+        "description": "xAssassins Magic Addon",
+        "name": "!!xAssassins Magic Addon",
+		"uuid": "4979e07d-b254-4a0b-a798-6483b3c0483a",
+        "version": [ 1, 0, 0 ],
+        "min_engine_version": [ 1, 19, 70 ]
+    },
+    "modules": [
+        {
+            "description": "Made by Warden Creations",
+            "type": "resources",
+			"uuid": "8e1ac021-bd6d-42b0-a21d-cda0fb426df8",
+            "version": [ 1, 0, 0 ]
+        }
+    ],
+	"dependencies": [
+		{
+			"uuid": "a650c188-2168-4dfd-9696-18ffd96f7a25",
+            "version": [ 1, 0, 0 ]
+		}
+	]
+}

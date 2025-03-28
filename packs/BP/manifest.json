@@ -1,0 +1,24 @@
+{
+    "format_version": 2,
+    "header": {
+        "description": "xAssassins Magic Addon",
+        "name": "!!xAssassins Magic Addon",
+		"uuid": "a650c188-2168-4dfd-9696-18ffd96f7a25",
+        "version": [ 1, 0, 0 ],
+        "min_engine_version": [ 1, 19, 70 ]
+    },
+    "modules": [
+        {
+            "description": "",
+            "type": "data",
+            "uuid": "8bd3062e-5a27-4369-becb-4719d4d4e63e",
+            "version": [ 1, 0, 0 ]
+        }
+    ],
+	"dependencies": [
+		{
+			"uuid": "4979e07d-b254-4a0b-a798-6483b3c0483a",
+			"version": [ 1, 0, 0 ]
+		}
+	]
+}
