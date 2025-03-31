@@ -1,0 +1,11 @@
+{
+    "format_version": "1.8.0",
+    "render_controllers": {
+      "controller.render.gem": {
+        "geometry": "geometry.gem",
+        "materials": [ { "*": "variable.is_enchanted ? Material.gem : Material.gem" } ],
+        "textures": [ "Texture.gem", "Texture.enchanted" ]
+      }
+   }
+}
+  

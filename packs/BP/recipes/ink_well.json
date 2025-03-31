@@ -1,0 +1,18 @@
+{
+  "format_version": "1.18",
+  "minecraft:recipe_brewing_mix": {
+  "description": {
+       "identifier": "xassassin:ink_well"
+      },
+  "tags": [ "brewing_stand" ],
+       "input": {
+             "item": "minecraft:potion",
+             "data": 0
+      },
+      "reagent": "minecraft:ink_sac",
+      "output": {
+             "item": "xassassin:ink_well",
+             "data": 0
+      }
+   }
+}

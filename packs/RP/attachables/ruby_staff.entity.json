@@ -1,0 +1,44 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:attachable": {
+    "description": {
+      "identifier": "xassassin:ruby_staff",
+      "materials": {
+        "default": "entity_alphatest",
+        "gem": "entity_emissive_alpha",
+        "enchanted": "entity_alphatest_glint"
+      },
+      "textures": {
+        "default": "textures/attachables/ruby_staff",
+        "gem": "textures/attachables/ruby_gem",
+        "enchanted": "textures/misc/enchanted_item_glint"
+      },
+      "geometry": {
+        "default": "geometry.staff",
+        "gem": "geometry.gem"
+      },
+      "animations": {
+        "wield": "controller.animation.staff.wield",
+        "wield_main_hand_first_person": "animation.staff.first_person_hold",
+        "wield_off_hand_first_person": "animation.shield.wield_off_hand_first_person",
+        "wield_first_person_raise": "animation.staff.first_person_raise",
+        "wield_third_person_offhand": "animation.staff.third_person_offhand",
+        "wield_first_person_riptide": "animation.staff.third_person_offhand",
+        "wield_third_person_mainhand": "animation.staff.third_person_hold"
+      },
+      "scripts": {
+      "pre_animation": [
+    "variable.charge_amount = math.clamp((query.main_hand_item_max_duration - (query.main_hand_item_use_duration - query.frame_alpha + 1.0)) / 10.0, 0.0, 1.0f);",
+    "(c.item_slot == 'main_hand') ? { v.anchor = q.item_slot_to_bone_name(c.item_slot);} : { v.anchor = q.item_slot_to_bone_name('waist');};"
+],
+        "animate": [
+          "wield"
+        ]
+      },
+      "render_controllers": [
+        "controller.render.staff",
+        "controller.render.gem"
+      ]
+    }
+  }
+}

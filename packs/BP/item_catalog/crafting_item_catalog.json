@@ -1,0 +1,64 @@
+{
+  "format_version": "1.21.60",
+  "minecraft:crafting_items_catalog": {
+    "categories": [
+      {
+        "category_name": "equipment",
+        "groups": [
+          {
+            "group_identifier": {
+              "icon": "xassassin:ink_and_quill",
+              "name": "xassassin:ink"
+            },
+            "items": [
+              "xassassin:ink_well",
+              "xassassin:glow_ink_well",
+              "xassassin:resonance_ink_well",
+              "xassassin:ink_and_quill",
+              "xassassin:glow_ink_and_quill",
+              "xassassin:resonance_ink_and_quill"
+            ]
+          },
+          {
+            "group_identifier": {
+              "icon": "xassassin:leather_spell_book",
+              "name": "xassassin:spellbook"
+            },
+            "items": [
+              "xassassin:leather_spell_book",
+              "xassassin:copper_spell_book",
+              "xassassin:iron_spell_book",
+              "xassassin:gold_spell_book",
+              "xassassin:amethyst_spell_book",
+              "xassassin:emerald_spell_book",
+              "xassassin:evoker_spell_book"
+            ]
+          },
+          {
+            "group_identifier": {
+              "icon": "xassassin:minor_healing_spell_scroll",
+              "name": "xassassin:spellscroll"
+            },
+            "items": [
+              "xassassin:fireball_spell_scroll",
+              "xassassin:fang_line_spell_scroll",
+              "xassassin:wind_dash_spell_scroll",
+              "xassassin:minor_healing_spell_scroll"
+            ]
+          },
+          {
+            "group_identifier": {
+              "icon": "xassassin:amethyst_staff",
+              "name": "xassassin:staffs"
+            },
+            "items": [
+              "xassassin:amethyst_staff",
+              "xassassin:ruby_staff",
+              "xassassin:echo_staff"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "format_version": "1.18",
+  "minecraft:recipe_brewing_mix": {
+  "description": {
+       "identifier": "xassassin:resonance_ink_well"
+      },
+  "tags": [ "brewing_stand" ],
+      "input": "xassassin:ink_well",
+      "reagent": "minecraft:echo_shard",
+      "output": {
+             "item": "xassassin:resonance_ink_well",
+             "data": 0
+      }
+      }
+}

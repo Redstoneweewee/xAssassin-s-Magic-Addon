@@ -1,0 +1,20 @@
+{
+  "format_version": "1.20.60",
+  "minecraft:item": {
+    "description": {
+      "identifier": "xassassin:resonance_ink_and_quill",
+      "menu_category": {  
+        "group": "xassassin:ink",  
+        "category": "equipment"
+      }  
+    },
+    "components": {
+      "minecraft:icon": "xassassin:resonance_ink_and_quill",
+      "minecraft:display_name": {
+        "value": "Resonance Ink & Quill"
+      },
+      "minecraft:max_stack_size": 16,
+      "minecraft:allow_off_hand": true
+    }
+  }
+}

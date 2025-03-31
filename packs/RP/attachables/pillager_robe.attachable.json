@@ -1,0 +1,27 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:attachable": {
+    "description": {
+      "identifier": "xassassin:pillager_robe",
+      "materials": {
+        "default": "armor",
+        "enchanted": "armor_enchanted"
+      },
+      "textures": {
+        "default": "textures/models/pillager_robe",
+        "helmet_normal": "textures/models/pillager_robe_helmet_normal",
+        "helmet_down": "textures/models/pillager_robe_helmet_down",
+        "enchanted": "textures/misc/enchanted_item_glint"
+      },
+      "geometry": {
+        "default": "geometry.pillager_robe",
+        "helmet_normal": "geometry.pillager_robe_helmet_normal",
+        "helmet_down": "geometry.pillager_robe_helmet_down"
+      },
+      "render_controllers": [ 
+        "controller.render.armor",
+        "controller.render.pillager_robe_helmet"
+      ]
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "format_version": "1.18",
+  "minecraft:recipe_brewing_mix": {
+  "description": {
+       "identifier": "a:sculk_vial"
+      },
+  "tags": [ "brewing_stand" ],
+       "input": {
+             "item": "minecraft:potion",
+             "data": 4
+      },
+      "reagent": "minecraft:sculk",
+      "output": {
+             "item": "a:sculk_vial",
+             "data": 0
+      }
+   }
+}

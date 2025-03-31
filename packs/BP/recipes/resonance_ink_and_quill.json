@@ -1,0 +1,27 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shapeless": {
+    "description": {
+    "identifier": "xassassin:resonance_ink_and_quill"
+    },
+
+    
+    "tags": [ "crafting_table" ],
+    "ingredients": [
+      {
+        "item": "xassassin:resonance_ink_well"
+      },
+      {
+        "item": "minecraft:feather"
+      }
+    ],
+	"unlock": [
+      {
+        "item": "xassassin:resonance_ink_well"
+      }
+    ],
+    "result": {
+      "item": "xassassin:resonance_ink_and_quill"
+    }
+  }
+}

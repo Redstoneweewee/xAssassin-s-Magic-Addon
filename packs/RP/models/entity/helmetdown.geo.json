@@ -1,5 +1,5 @@
 {
-	"format_version": "1.16.0",
+	"format_version": "1.12.0",
 	"minecraft:geometry": [
 		{
 			"description": {
@@ -13,7 +13,8 @@
 			"bones": [
 				{
 					"name": "root",
-					"pivot": [0, 0, 0]
+					"pivot": [0, 0, 0],
+					"rotation": [0, 180, 0]
 				},
 				{
 					"name": "waist",
@@ -28,16 +29,17 @@
 				{
 					"name": "head",
 					"parent": "body",
-					"pivot": [0, 24, 0]
+					"pivot": [1, 24, 0]
 				},
 				{
 					"name": "helmet",
 					"parent": "head",
-					"pivot": [0, 0, 0],
+					"pivot": [0.3, 0, 1],
+					"rotation": [0, 180, 0],
 					"cubes": [
 						{
-							"origin": [-4, 24, -4],
-							"size": [8, 8, 8],
+							"origin": [-5, 24, -3],
+							"size": [9, 8, 8],
 							"inflate": 0.65,
 							"uv": {
 								"north": {"uv": [32, 8], "uv_size": [-8, 8]},
@@ -49,10 +51,10 @@
 							}
 						},
 						{
-							"origin": [-3, 23.71696, -5.36658],
-							"size": [6, 3, 2],
+							"origin": [-4, 23.71696, -4.36658],
+							"size": [7, 3, 2],
 							"inflate": 0.65,
-							"pivot": [0, 25.57447, -6.42935],
+							"pivot": [1, 25.57447, -5.42935],
 							"rotation": [20, 0, 0],
 							"uv": {
 								"north": {"uv": [16, 18], "uv_size": [-6, 3]},
@@ -64,10 +66,10 @@
 							}
 						},
 						{
-							"origin": [-2, 23.59688, -7.16287],
-							"size": [4, 1, 2],
+							"origin": [-3, 23.59688, -6.16287],
+							"size": [5, 1, 2],
 							"inflate": 0.65,
-							"pivot": [0, 24.09688, -6.16287],
+							"pivot": [1, 24.09688, -5.16287],
 							"rotation": [55, 0, 0],
 							"uv": {
 								"north": {"uv": [28, 18], "uv_size": [-4, 1]},

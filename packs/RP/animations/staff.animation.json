@@ -1,0 +1,88 @@
+{
+  "format_version": "1.8.0",
+  "animations": {
+    "animation.staff.third_person_hold": {
+      "loop": true,
+      "bones": {
+        "staff": {
+          "rotation": [
+            -1,
+            32.5,
+            -87.5
+          ],
+          "position": [
+            0,
+            1.5,
+            -10.5
+          ],
+          "scale": [
+            1,
+            0.5,
+            1
+          ]
+        }
+      }
+    },
+    "animation.staff.third_person_offhand": {
+      "loop": true,
+      "bones": {
+        "staff": {
+          "rotation": [
+            99.91547,
+            7.38542,
+            178.69038
+          ],
+          "position": [
+            12,
+            46,
+            7
+          ],
+          "scale": [
+            1,
+            0.5,
+            1
+          ]
+        }
+      }
+    },
+   "animation.staff.first_person_raise": {
+			"loop": true,
+			"bones": {
+				"staff": {
+					"position": [
+						"0.0 + (variable.charge_amount <= 0.45 ? math.lerp(0.0, -6.5, variable.charge_amount * 4.0) : -6.5) + (variable.charge_amount > 0.45 ? math.lerp(0.0, 0.0, (variable.charge_amount - 0) * 1) : 0.0)",
+						"0.0 + (variable.charge_amount <= 0.45 ? math.lerp(0.0, 0, variable.charge_amount * 0) : 0) + (variable.charge_amount > 0 ? math.lerp(0.0, 0, (variable.charge_amount - 0.45) * 1.33) : 0.0)",
+						"0.0 + (variable.charge_amount <= 0 ? math.lerp(0.0, 0, variable.charge_amount * -4.0) : 0) + (variable.charge_amount > 0.45 ? math.lerp(0.0, 0.0, (variable.charge_amount - 0.45) * 1.33) : 0.0)"
+					],
+          "rotation": [
+            0,
+            40,
+            0
+          ]
+				}
+       }
+			},
+    "animation.staff.first_person_hold": {
+      "loop": true,
+      "bones": {
+        "staff": {
+          "rotation": [
+            -57.30639,
+            25,
+            164.02587
+          ],
+          "position": [
+            10,
+            20,
+            -2
+          ],
+          "scale": [
+            0.8,
+            0.5,
+            0.8
+          ]
+        }
+      }
+    }
+  }
+}

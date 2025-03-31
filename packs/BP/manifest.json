@@ -1,24 +1,55 @@
 {
-    "format_version": 2,
-    "header": {
-        "description": "xAssassins Magic Addon",
-        "name": "!!xAssassins Magic Addon",
-		"uuid": "a650c188-2168-4dfd-9696-18ffd96f7a25",
-        "version": [ 1, 0, 0 ],
-        "min_engine_version": [ 1, 19, 70 ]
-    },
-    "modules": [
-        {
-            "description": "",
-            "type": "data",
-            "uuid": "8bd3062e-5a27-4369-becb-4719d4d4e63e",
-            "version": [ 1, 0, 0 ]
-        }
-    ],
+	"format_version": 2,
+	"metadata": {
+		"authors": [
+			"Fishy Dev, xAssassin"
+		]
+	},
+	"header": {
+		"name": "§6Enchantment Cost System §g1.0.0",
+		"description": "Created by §bFishy Dev§r. Enhanced by §cxAssassin§r. Configure the pack's files to match your needs.",
+		"min_engine_version": [
+			1,
+			21,
+			0
+		],
+		"uuid": "1ecec436-0ee5-494c-b3f5-19eec35121e1",
+		"version": [
+			1,
+			0,
+			0
+		]
+	},
+	"modules": [
+		{
+			"type": "data",
+			"uuid": "354a5339-d662-4135-8587-036ecbed0aab",
+			"version": [
+				1,
+				0,
+				0
+			]
+		},
+		{
+			"type": "script",
+			"language": "javascript",
+			"uuid": "1e9dd5f4-1c3d-4e33-a0db-ba9d3508fa5c",
+			"entry": "scripts/main.js",
+			"version": [
+				1,
+				0,
+				0
+			]
+		}
+	],
 	"dependencies": [
 		{
-			"uuid": "4979e07d-b254-4a0b-a798-6483b3c0483a",
-			"version": [ 1, 0, 0 ]
+			"module_name": "@minecraft/server",
+			"version": "1.16.0"
+		},
+		{
+			"module_name": "@minecraft/server-ui",
+			"version": "1.2.0"
 		}
 	]
 }

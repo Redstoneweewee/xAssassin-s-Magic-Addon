@@ -1,9 +1,63 @@
 {
-  "resource_pack_name": "vanilla",
+  "resource_pack_name": "survival_expansion:otherworldly",
   "texture_name": "atlas.items",
-  "texture_data": {
+  "texture_data":{
+    "a:sculk_vial": {
+      "textures": "textures/items/sculk_vial"
+    },
+    "xassassin:ink_well": {
+      "textures": "textures/items/ink_well"
+    },
+    "xassassin:glow_ink_well": {
+      "textures": "textures/items/glow_ink_well"
+    },
+    "xassassin:resonance_ink_well": {
+      "textures": "textures/items/resonance_ink_well"
+    },
+    "xassassin:resonance_ink_and_quill": {
+      "textures": "textures/items/resonance_ink_and_quill"
+    },
+    "xassassin:ink_and_quill": {
+      "textures": "textures/items/ink_and_quill"
+    },
+    "xassassin:ruby_staff": {
+      "textures": "textures/items/ruby_staff"
+    },
+    "xassassin:amethyst_staff": {
+      "textures": "textures/items/amethyst_staff"
+    },
+    "xassassin:echo_staff": {
+      "textures": "textures/items/echo_staff"
+    },
+    "xassassin:leather_book": {
+      "textures": "textures/items/leather_tiered_book"
+    },
+    "xassassin:copper_book": {
+      "textures": "textures/items/copper_tiered_book"
+    },
+    "xassassin:iron_book": {
+      "textures": "textures/items/iron_tiered_book"
+    },
+    "xassassin:gold_book": {
+      "textures": "textures/items/golden_tiered_book"
+    },
+    "xassassin:amethyst_book": {
+      "textures": "textures/items/amethyst_tiered_book"
+    },
+    "xassassin:emerald_book": {
+      "textures": "textures/items/emerald_tiered_book"
+    },
+    "xassassin:evocation_book": {
+      "textures": "textures/items/evocation_book"
+    },
+    "xassassin:spell_scroll": {
+      "textures": "textures/items/spell_scroll"
+    },
     "pillager_robe": {
       "textures": "textures/items/pillager_robe"
+    },
+    "xassassin:glow_ink_and_quill": {
+      "textures": "textures/items/glow_ink_and_quill"
     }
   }
 }

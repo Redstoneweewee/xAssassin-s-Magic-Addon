@@ -2,7 +2,7 @@
     "format_version": "1.21.50",
     "minecraft:item": {
         "description": {
-            "identifier": "yes:pillager_robe",
+            "identifier": "xassassin:sculk_robe",
             "menu_category": {
                 "category": "equipment",
                 "group": "itemGroup.name.chestplate"
@@ -23,7 +23,7 @@
                 }
             },
             "minecraft:display_name": {
-                "value": "Pillar Robe"
+                "value": "Sculk Cultist Robe"
             },
             "minecraft:icon": "pillager_robe",
             "minecraft:enchantable": {
@@ -33,16 +33,6 @@
             "minecraft:wearable": {
                 "protection": 5,
                 "slot": "slot.armor.chest"
-            },
-            "minecraft:repairable": {
-                "repair_items": [
-                    {
-                        "items": [
-                            "yes:pillager_robe"
-                        ],
-                        "repair_amount": "context.other->query.remaining_durability+0.12*context.other->query.max_durability"
-                    }
-                ]
             }
         }
     }

@@ -1,0 +1,49 @@
+{
+	"format_version": "1.10.0",
+	"animation_controllers": {
+		"controller.animation.staff.wield": {
+			"initial_state": "default",
+			"states": {
+				"default": {
+					"animations": [
+						{
+							"wield_main_hand_first_person": "c.item_slot=='main_hand'"
+						},
+						{
+							"wield_off_hand_first_person": "c.item_slot!='main_hand'"
+						},
+            {
+              "wield_first_person_raise": "query.main_hand_item_use_duration > 0.0f"
+            },
+            {
+              "wield_first_person_riptide": "query.can_damage_nearby_mobs > 0.0"
+            },
+            {
+              "wield_first_person_raise_shake": "query.main_hand_item_use_duration > 0.0f"
+            }
+					],
+					"transitions": [
+						{
+							"third_person": "!c.is_first_person"
+						}
+					]
+				},
+				"third_person": {
+					"animations": [
+						{
+							"wield_third_person_mainhand": "c.item_slot=='main_hand'"
+						},
+						{
+							"wield_third_person_offhand": "c.item_slot!='main_hand'"
+						}
+					],
+					"transitions": [
+						{
+							"default": "c.is_first_person"
+						}
+					]
+				}
+			}
+		}
+	}
+}
