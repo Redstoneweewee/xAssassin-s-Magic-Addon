@@ -1,8 +1,9 @@
 {
 	"format_version": 2,
 	"metadata": {
+		"product_type": "addon",
 		"authors": [
-			"Fishy Dev, xAssassin"
+			"Redstoneweewee, Warden Creations, Dal4y, xAssassin"
 		]
 	},
 	"header": {
