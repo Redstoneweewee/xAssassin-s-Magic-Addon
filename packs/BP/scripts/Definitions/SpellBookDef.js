@@ -1,12 +1,13 @@
 import { Player } from '@minecraft/server';
 import { Spell } from './SpellDef';
+import { emptySpellSlot } from '../Lists/SpellsList';
 
 /**
  * @typedef {object} SpellBookDef
  * @property {string} tag 
  * @property {number} tier 
  * @property {Spell[]} inherentSpells 
- * @property {Spell[]} spells - changes dring runtime
+ * @property {Spell[]} spells - changes during runtime. If a slot has no spell, it has a `SpellsList.emptySpellSlot` Spell
  * @property {boolean} alterable 
  */
 class SpellBook {
@@ -25,6 +26,9 @@ class SpellBook {
         this.inherentSpells.forEach(spell => {
             this.addSpell(spell);
         });
+        for(let i=this.inherentSpells.length; i<this.tier; i++) {
+            this.inherentSpells.push(emptySpellSlot);
+        }
     }
 
     /**

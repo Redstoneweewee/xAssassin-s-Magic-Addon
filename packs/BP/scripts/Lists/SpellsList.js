@@ -7,6 +7,13 @@ import { PlayerUtil, SpellUtil } from "../Utilities";
  * @param {Player} player 
  * @param {number} chargeLevel 
  */
+function emptySpellFunction(player, chargeLevel) {}
+
+
+/**
+ * @param {Player} player 
+ * @param {number} chargeLevel 
+ */
 function fangAttackFunction(player, chargeLevel) {
     for (let ring = 0; ring < chargeLevel; ring++) {
         const radius = 3 + ring * 2;
@@ -227,36 +234,62 @@ function windDashFunction(player, chargeLevel) {
 }
 
 
+/**
+ * @typedef {object} SpellNamesDef 
+ * @property {string} empty
+ * @property {string} fangAttack
+ * @property {string} fangLine
+ * @property {string} minorHealingSpell
+ * @property {string} woololo
+ * @property {string} fireball
+ * @property {string} windDash
+ */
+/** @type {SpellNamesDef} */
+const SpellNamesList = {
+    empty: "Empty Spell Slot",
+    fangAttack: "Fang Attack",
+    fangLine: "Fang Line",
+    minorHealingSpell: "Minor Healing Spell",
+    woololo: "Woololo",
+    fireball: "Fireball",
+    windDash: "Wind Dash"
+}
+
+/**@type {SpellsDef.Spell} */
+const emptySpellSlot = {
+    name: SpellNamesList.empty,
+    functionCall: emptySpellFunction
+}
 
 /**@type {SpellsDef.SpellDef[]} */
 const Spells = [
     {
-        name: "Fang Attack",
+        name: SpellNamesList.fangAttack,
         functionCall: fangAttackFunction
     },
     {
-        name: "Fang Line",
+        name: SpellNamesList.fangLine,
         functionCall: fangLineFunction
     },
     {
-        name: "Minor Healing Spell",
+        name: SpellNamesList.minorHealingSpell,
         functionCall: minorHealingSpellFunction
     },
     {
-        name: "Woololo",
+        name: SpellNamesList.woololo,
         functionCall: woololoFunction
     },
     {
-        name: "Fireball",
+        name: SpellNamesList.fireball,
         functionCall: fireballFunction
     },
     {
-        name: "Wind Dash",
+        name: SpellNamesList.windDash,
         functionCall: windDashFunction
     }
 ]
 
-/** @type {Map<string, import("../Definitions/SpellDef").SpellDef>} */
+/** @type {Map<string, SpellsDef.Spell>} */
 const SpellObjects = new Map();
 Spells.forEach(spell => {
     SpellObjects.set(spell.name, new SpellsDef.Spell(spell));
@@ -264,4 +297,4 @@ Spells.forEach(spell => {
 
 
 
-export { SpellObjects };
+export { SpellNamesList, emptySpellSlot, SpellObjects };
