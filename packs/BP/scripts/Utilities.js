@@ -96,6 +96,14 @@ class PlayerUtil {
     }
     
     /**
+     * @param {Player} player 
+     * @returns {ItemStack|undefined}
+     */
+    static getOffhandItemStack(player) {
+        return PlayerUtil.getOffhandContainerSlot(player)?.getItem();
+    }
+
+    /**
      * 
      * @param {Player} player 
      * @param {string} itemTypeId 
@@ -124,9 +132,9 @@ class PlayerUtil {
         const mainhandItemStack = PlayerUtil.getSelectedItemStack(player);
         if(mainhandItemStack === undefined) { return false; }
         if(!mainhandItemStack.getTags().includes("xassassin:magic_staff")) { return false; }
-        const offHandContainerSlot = PlayerUtil.getOffhandContainerSlot(player);
-        if(offHandContainerSlot === undefined) { return false; }
-        if(!offHandContainerSlot.getTags().includes("xassassin:spellbook")) { return false; }
+        const offHandItemStack = PlayerUtil.getOffhandItemStack(player);
+        if(offHandItemStack === undefined) { return false; }
+        if(!offHandItemStack.getTags().includes("xassassin:spellbook")) { return false; }
         const playerObject = PlayerUtil.getPlayerObject(player);
         if(!playerObject.playerState.canCastSpells) { return false; }
         return true;
@@ -262,6 +270,22 @@ class SpellBookUtil {
         }
         spellBookContainerSlot.setLore(loreArray);
         return spellBookContainerSlot;
+    }
+
+    
+    /**
+     * 
+     * @param {Player} player 
+     * @param {Spell} spellObject 
+     * @returns 
+     */
+    static hasAnyEnhanceItems(player, spellObject) {
+        for(const enhanceitemTypeId in spellObject.enhanceItems) {
+            if(PlayerUtil.hasItemInInventory(player, enhanceitemTypeId)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
 

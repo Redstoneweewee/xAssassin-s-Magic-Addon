@@ -41,7 +41,7 @@ class PlayerObject {
     }
 
     startCountingSpellChargeTime() {
-        this.spellChargeStartTime = system.currentTick;
+        this.#spellChargeStartTime = system.currentTick;
     }
 
     /**

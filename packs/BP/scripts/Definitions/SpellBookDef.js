@@ -73,7 +73,7 @@ class SpellBook {
      * @returns {Spell}
      */
     getSelectedSpell() {
-        console.log(`returning spell #${this.#selectedSlot}, ${this.#spells[this.#selectedSlot].tag}`);
+        console.log(`SpellBook.getSelectedSpell() returning spell #${this.#selectedSlot}, ${this.#spells[this.#selectedSlot].tag}`);
         return this.#spells[this.#selectedSlot];
     }
 

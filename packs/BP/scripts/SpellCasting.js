@@ -9,14 +9,17 @@ world.afterEvents.itemStartUse.subscribe(eventData => {
     onStartSpellCast(eventData.source);
 });
 
-world.afterEvents.itemStopUse.subscribe(eventData => {
+world.afterEvents.itemReleaseUse.subscribe(eventData => {
     onReleaseSpellCast(eventData.source);
+});
+world.afterEvents.itemStopUse.subscribe(eventData => {
+    onEndSpellCast(eventData.source);
 });
 
 world.afterEvents.entityDie.subscribe(eventData => {
     const entity = eventData.deadEntity;
     if(!(entity instanceof Player)) { return; }
-    onReleaseSpellCast(entity);
+    onEndSpellCast(entity);
 });
 
 /**
@@ -52,7 +55,6 @@ function onReleaseSpellCast(player) {
     if(container === undefined) { return; }
 
 
-    const startTick = playerObject.returnSpellChargeTime();
 
     const spellBookObject = SpellBookUtil.getSpellBookObject(offHandContainerSlot);
     if(spellBookObject === undefined) { return; }
@@ -64,10 +66,11 @@ function onReleaseSpellCast(player) {
     //    return;
     //}
 
-    const enhanced = hasAnyEnhanceItems(player, spellObject);
+    const enhanced = SpellBookUtil.hasAnyEnhanceItems(player, spellObject);
 
     const maxChargeLevel = enhanced ? 4 : 3;
-    const chargeTime = system.currentTick - startTick;
+    const chargeTime = playerObject.returnSpellChargeTime();
+    console.log(`chargeTime: ${chargeTime}`);
     const chargeLevel = Math.min(maxChargeLevel, Math.floor(chargeTime / 16));
     player.onScreenDisplay.setActionBar("§r");
     if (chargeTime < 16) {
@@ -77,19 +80,12 @@ function onReleaseSpellCast(player) {
     }
 
     SpellUtil.castSpell(spellObject.spellFuncName, player, chargeLevel);
+    onEndSpellCast(player);
 }
 
 /**
- * 
  * @param {Player} player 
- * @param {Spell} spellObject 
- * @returns 
  */
-function hasAnyEnhanceItems(player, spellObject) {
-    for(const enhanceitemTypeId in spellObject.enhanceItems) {
-        if(PlayerUtil.hasItemInInventory(player, enhanceitemTypeId)) {
-            return true;
-        }
-    }
-    return false;
+function onEndSpellCast(player) {
+    //nothing needs to be done here yet, but as more spells are added this will probably need to reset variables
 }
