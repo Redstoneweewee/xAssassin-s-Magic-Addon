@@ -4,17 +4,19 @@ import { PlayerUtil, SpellUtil } from "../Utilities";
 
 
 /**
- * @param {Player} player 
- * @param {number} chargeLevel 
+ * @typedef {((player: Player, chargeLevel: number) => void)} SpellFunction
  */
-function emptySpellFunction(player, chargeLevel) {}
+
+
+
+function none() {}
 
 
 /**
  * @param {Player} player 
  * @param {number} chargeLevel 
  */
-function fangAttackFunction(player, chargeLevel) {
+function fangAttackExitFunction(player, chargeLevel) {
     for (let ring = 0; ring < chargeLevel; ring++) {
         const radius = 3 + ring * 2;
         const fangCount = 8 + (ring === 1 ? 2 : ring === 2 ? 4 : 0);
@@ -35,7 +37,7 @@ function fangAttackFunction(player, chargeLevel) {
  * @param {Player} player 
  * @param {number} chargeLevel 
  */
-function fangLineFunction(player, chargeLevel) {
+function fangLineExitFunction(player, chargeLevel) {
     const direction = player.getViewDirection();
     const horizontalMagnitude = Math.sqrt(direction.x * direction.x + direction.z * direction.z);
     const horizontalDirection = { x: horizontalMagnitude > 0 ? direction.x / horizontalMagnitude : 0, z: horizontalMagnitude > 0 ? direction.z / horizontalMagnitude : 0 }
@@ -65,7 +67,7 @@ function fangLineFunction(player, chargeLevel) {
  * @param {Player} player 
  * @param {number} chargeLevel 
  */
-function minorHealingSpellFunction(player, chargeLevel) {
+function minorHealingSpellExitFunction(player, chargeLevel) {
     player.addEffect("regeneration", 200, { amplifier: 1 });
     if (chargeLevel >= 2) {
         const radius = chargeLevel === 3 ? 8 : 5;
@@ -87,9 +89,15 @@ function minorHealingSpellFunction(player, chargeLevel) {
 
 /**
  * @param {Player} player 
+ */
+function woololoEnterFunction(player) {
+    player.playSound("mob.evocation_illager.prepare_wololo");
+}
+/**
+ * @param {Player} player 
  * @param {number} chargeLevel 
  */
-function woololoFunction(player, chargeLevel) {
+function woololoExitFunction(player, chargeLevel) {
     const radius = chargeLevel === 1 ? 3 : chargeLevel === 2 ? 8 : 12;
     const particleCount = chargeLevel === 1 ? 12 : chargeLevel === 2 ? 20 : 28;
     const angleStep = (2 * Math.PI) / particleCount;
@@ -126,7 +134,7 @@ const fireballLifetimes = new Map();
  * @param {Player} player 
  * @param {number} chargeLevel 
  */
-function fireballFunction(player, chargeLevel) {
+function fireballExitFunction(player, chargeLevel) {
     const inventory = PlayerUtil.getContainer(player);
     if(inventory === undefined) { return; }
     const directionFireball = player.getViewDirection();
@@ -215,7 +223,7 @@ function fireballFunction(player, chargeLevel) {
  * @param {Player} player 
  * @param {number} chargeLevel 
  */
-function windDashFunction(player, chargeLevel) {
+function windDashExitFunction(player, chargeLevel) {
     const dashDirection = player.getViewDirection();
     const strength = chargeLevel * 2;
     if (chargeLevel === 3 && player.isOnGround) {
@@ -233,6 +241,23 @@ function windDashFunction(player, chargeLevel) {
     }, 10);
 }
 
+/**
+ * 
+ */
+/** @type {SpellFunction[]} */
+const SpellFunctionsList = [
+    none,
+    fangAttackExitFunction,
+    fangLineExitFunction,
+    minorHealingSpellExitFunction,
+    woololoEnterFunction,
+    woololoExitFunction,
+    fireballExitFunction,
+    windDashExitFunction
+]
+
+
+
 
 /**
  * @typedef {object} SpellNamesDef 
@@ -244,7 +269,10 @@ function windDashFunction(player, chargeLevel) {
  * @property {string} fireball
  * @property {string} windDash
  */
-/** @type {SpellNamesDef} */
+/** 
+ * This is only used as a placeholder. Should be removed after refactoring.
+ * @type {SpellNamesDef} 
+ */
 const SpellNamesList = {
     empty: "Empty Spell Slot",
     fangAttack: "Fang Attack",
@@ -255,46 +283,72 @@ const SpellNamesList = {
     windDash: "Wind Dash"
 }
 
-/**@type {SpellsDef.Spell} */
-const emptySpellSlot = {
-    name: SpellNamesList.empty,
-    functionCall: emptySpellFunction
-}
 
+
+
+/**@type {SpellsDef.Spell} */
+const emptySpell = {
+    tag: "emptySpellSlot",
+    enterFuncName: "none",
+    spellFuncName: "none",
+    enhanceItems: []
+}
 /**@type {SpellsDef.SpellDef[]} */
 const Spells = [
     {
-        name: SpellNamesList.fangAttack,
-        functionCall: fangAttackFunction
+        tag: "fangAttack",
+        enterFuncName: "none",
+        spellFuncName: "fangAttackExitFunction",
+        enhanceItems: []
     },
     {
-        name: SpellNamesList.fangLine,
-        functionCall: fangLineFunction
+        tag: "fangLine",
+        enterFuncName: "none",
+        spellFuncName: "fangLineExitFunction",
+        enhanceItems: []
     },
     {
-        name: SpellNamesList.minorHealingSpell,
-        functionCall: minorHealingSpellFunction
+        tag: "minorHealingSpell",
+        enterFuncName: "none",
+        spellFuncName: "minorHealingSpellExitFunction",
+        enhanceItems: []
     },
     {
-        name: SpellNamesList.woololo,
-        functionCall: woololoFunction
+        tag: "woololo",
+        enterFuncName: "woololoEnterFunction",
+        spellFuncName: "woololoExitFunction",
+        enhanceItems: []
     },
     {
-        name: SpellNamesList.fireball,
-        functionCall: fireballFunction
+        tag: "fireball",
+        enterFuncName: "none",
+        spellFuncName: "fireballExitFunction",
+        enhanceItems: ["minecraft:dragon_breath"]
     },
     {
-        name: SpellNamesList.windDash,
-        functionCall: windDashFunction
+        tag: "windDash",
+        enterFuncName: "none",
+        spellFuncName: "windDashExitFunction",
+        enhanceItems: []
     }
 ]
+
+
+/**
+ * @type {Map<string, SpellFunction>}
+ */
+const SpellFunctionsMap = new Map();
+for(const spellFunction of SpellFunctionsList) {
+    SpellFunctionsMap.set(spellFunction.name, spellFunction);
+}
+
 
 /** @type {Map<string, SpellsDef.Spell>} */
 const SpellObjects = new Map();
 Spells.forEach(spell => {
-    SpellObjects.set(spell.name, new SpellsDef.Spell(spell));
+    SpellObjects.set(spell.tag, new SpellsDef.Spell(spell));
 });
 
 
 
-export { SpellNamesList, emptySpellSlot, SpellObjects };
+export { SpellNamesList, emptySpell, SpellFunctionsMap, SpellObjects };

@@ -1,5 +1,5 @@
 import * as SpellBookDef from "../Definitions/SpellBookDef";
-import { emptySpellSlot, SpellNamesList, SpellObjects } from "./SpellsList";
+import { emptySpell, SpellNamesList, SpellObjects } from "./SpellsList";
 
 const SpellBookTag = "xassassin:spellbook";
 
@@ -8,55 +8,41 @@ const SpellBooks = [
     {
         tag: "xassassin:leather_spell_book",
         tier: 1,
-        inherentSpells: [],
-        spells: [],
-        alterable: true
+        inherentSpells: []
     },
     {
         tag: "xassassin:copper_spell_book",
         tier: 2,
-        inherentSpells: [],
-        spells: [],
-        alterable: true
+        inherentSpells: []
     },
     {
         tag: "xassassin:iron_spell_book",
         tier: 3,
-        inherentSpells: [],
-        spells: [],
-        alterable: true
+        inherentSpells: []
     },
     {
         tag: "xassassin:gold_spell_book",
         tier: 4,
-        inherentSpells: [],
-        spells: [],
-        alterable: true
+        inherentSpells: []
     },
     {
         tag: "xassassin:amethyst_spell_book",
         tier: 5,
-        inherentSpells: [],
-        spells: [],
-        alterable: true
+        inherentSpells: []
     },
     {
         tag: "xassassin:emerald_spell_book",
         tier: 6,
-        inherentSpells: [],
-        spells: [],
-        alterable: true
+        inherentSpells: []
     },
     {
         tag: "xassassin:evoker_spell_book",
         tier: 3,
         inherentSpells: [
-            SpellObjects.get(SpellNamesList.fangAttack)??emptySpellSlot,
-            SpellObjects.get(SpellNamesList.minorHealingSpell)??emptySpellSlot,
-            SpellObjects.get(SpellNamesList.woololo)??emptySpellSlot
-        ],
-        spells: [],
-        alterable: true
+            SpellObjects.get("fangAttack")??emptySpell,
+            SpellObjects.get("minorHealingSpell")??emptySpell,
+            SpellObjects.get("woololo")??emptySpell
+        ]
     }
 ]
 /** @type {Map<string, SpellBookDef.SpellBook>} */

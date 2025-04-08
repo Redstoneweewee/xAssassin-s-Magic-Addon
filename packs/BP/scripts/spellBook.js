@@ -11,6 +11,7 @@ const fireballLifetimes = new Map();
 /**
  * @param {Player} player
  */
+/*
 function updateInventory(player) {
     const inventory = PlayerUtil.getContainer(player);
     if(inventory === undefined) { return; }
@@ -38,6 +39,7 @@ function updateInventory(player) {
         }
     }
 }
+*/
 
 function spawnChargeParticles(player, chargeLevel, spell) {
     let particleCount, radius, particleType, yOffset
@@ -492,6 +494,7 @@ function handleItemUse({ source: player }) {
         }
     }
 }
+/*
 function handleItemStartUse({ source: player, itemStack: item }) {
     if (!item || !item.getTags().includes("xassassin:magic_staff") || player.isSneaking) return
     playerChargeStart.set(player.id, system.currentTick)
@@ -506,12 +509,14 @@ function handleItemStartUse({ source: player, itemStack: item }) {
     }
     player.playSound("mob.evocation_illager.prepare_attack")
 }
+*/
 
 
 /**
  * @param {Player} player 
  * @param {ItemStack|undefined} mainHand 
  */
+/*
 function handleItemReleaseUse(player, mainHand) {
     const equippable = player.getComponent(EntityComponentTypes.Equippable);
     if(equippable === undefined || !(equippable instanceof EntityEquippableComponent)) { return; }
@@ -542,7 +547,7 @@ function handleItemReleaseUse(player, mainHand) {
     const spell = spells[playerSpellIndices.get(player.id) || 0];
     const spellObject = SpellObjects.get(spell);
     if(spellObject) {
-        spellObject.functionCall(player, chargeLevel);
+        SpellUtil.castSpell(spellObject.spellFuncName, player, chargeLevel);
         player.playSound("mob.evocation_illager.cast_spell");
     }
     else {
@@ -550,6 +555,13 @@ function handleItemReleaseUse(player, mainHand) {
         player.playSound("note.bass");
     }
 }
+*/
+
+
+
+
+
+
 system.runInterval(() => {
     for (const [fireballId, spawnTick] of fireballLifetimes) {
         const fireball = world.getEntity(fireballId)
@@ -577,15 +589,15 @@ system.afterEvents.scriptEventReceive.subscribe(event => {
     }
 });
 
-system.runInterval(() => {
-    world.getAllPlayers().forEach(player => {
-        updateInventory(player);
-    });
-}, 5);
+//system.runInterval(() => {
+//    world.getAllPlayers().forEach(player => {
+//        updateInventory(player);
+//    });
+//}, 5);
 
 system.runInterval(updateChargeIndicator, 1);
 world.afterEvents.itemUse.subscribe(handleItemUse);
-world.afterEvents.itemStartUse.subscribe(handleItemStartUse);
-world.afterEvents.itemReleaseUse.subscribe(eventData => {
-    handleItemReleaseUse(eventData.source, eventData.itemStack);
-});
+//world.afterEvents.itemStartUse.subscribe(handleItemStartUse);
+//world.afterEvents.itemReleaseUse.subscribe(eventData => {
+//    handleItemReleaseUse(eventData.source, eventData.itemStack);
+//});
