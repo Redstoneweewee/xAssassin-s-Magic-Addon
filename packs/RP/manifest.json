@@ -1,14 +1,16 @@
 {
 	"format_version": 2,
 	"header": {
-		"name": "Enscription Table RP (Development)",
-		"description": " ",
+		"name": "§lInk & Incantation v§g1.0.0§r (Development)",
+		"description": "A somewhat decent magic addon.",
 		"uuid": "b45150a4-0f0d-f3a9-1fda-373384536039",
 		"version": [1, 0, 0],
 		"min_engine_version": [1, 16, 0]
 	},
 	"metadata": {
-		"authors": ["xassassin"]
+		"authors": [
+			"Redstoneweewee, Warden Creations, Dal4y, xAssassin"
+		]
 	},
 	"modules": [
 		{
