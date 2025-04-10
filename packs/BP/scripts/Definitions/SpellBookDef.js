@@ -14,7 +14,7 @@ import { emptySpell } from '../Lists/SpellsList';
  * @property {string} tag 
  * @property {number} tier 
  * @property {import('./SpellDef').SpellDef[]} inherentSpells 
- * @property {import('./SpellDef').SpellDef[]} spells 
+ * @property {import('./SpellDef').SpellDef[]} spells
  * @property {number} selectedSlot 
  */
 

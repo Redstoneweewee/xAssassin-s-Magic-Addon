@@ -20,12 +20,14 @@ function startChargeIndicator(player, spellObject) {
     const offHandContainerSlot = PlayerUtil.getOffhandContainerSlot(player);
     if(offHandContainerSlot === undefined) { return; }
 
+    const necessaryCharge = spellObject.charge;
+    console.log(necessaryCharge);
+    const enhanced = SpellBookUtil.hasAnyEnhanceItems(player, spellObject);
+    const maxChargeLevel = enhanced ? 4 : 3;
     //The interval is cleared in SpellCast.onEndSpellCast();
     playerObject.spellChargeRunId = system.runInterval(() => {
-        const enhanced = SpellBookUtil.hasAnyEnhanceItems(player, spellObject);
-        const maxChargeLevel = enhanced ? 4 : 3;
         const chargeTime = playerObject.returnSpellChargeTime();
-        const chargeLevel = Math.min(maxChargeLevel, Math.floor(chargeTime / 16));
+        const chargeLevel = Math.min(maxChargeLevel, Math.floor(chargeTime / necessaryCharge));
         let display = "";
         display += StringUtil.convertTagToName(spellObject.tag) + "\n";
         for(let i=1; i<=maxChargeLevel; i++) {
@@ -45,7 +47,7 @@ function startChargeIndicator(player, spellObject) {
         //if (system.currentTick % 2 === 0) {
         //    spawnChargeParticles(player, chargeLevel, currentSpell)
         //}
-        if (chargeLevel > Math.min(maxChargeLevel, Math.floor((chargeTime - 1) / 16))) {
+        if (chargeLevel > Math.min(maxChargeLevel, Math.floor((chargeTime - 1) / necessaryCharge))) {
             const basePitch = 0.8
             const pitchIncrement = 0.1
             const pitch = basePitch + chargeLevel * pitchIncrement

@@ -260,6 +260,7 @@ const SpellFunctionsList = [
 /**@type {SpellsDef.Spell} */
 const emptySpell = {
     tag: "emptySpellSlot",
+    charge: 16,
     enterFuncName: "none",
     spellFuncName: "none",
     enhanceItems: []
@@ -268,36 +269,42 @@ const emptySpell = {
 const Spells = [
     {
         tag: "fangAttack",
+        charge: 16,
         enterFuncName: "none",
         spellFuncName: "fangAttackExitFunction",
         enhanceItems: []
     },
     {
         tag: "fangLine",
+        charge: 16,
         enterFuncName: "none",
         spellFuncName: "fangLineExitFunction",
         enhanceItems: []
     },
     {
         tag: "minorHealing",
+        charge: 16,
         enterFuncName: "none",
         spellFuncName: "minorHealingExitFunction",
         enhanceItems: []
     },
     {
         tag: "woololo",
+        charge: 16,
         enterFuncName: "woololoEnterFunction",
         spellFuncName: "woololoExitFunction",
         enhanceItems: []
     },
     {
         tag: "fireball",
+        charge: 16,
         enterFuncName: "none",
         spellFuncName: "fireballExitFunction",
         enhanceItems: ["minecraft:dragon_breath"]
     },
     {
         tag: "windDash",
+        charge: 16,
         enterFuncName: "none",
         spellFuncName: "windDashExitFunction",
         enhanceItems: []

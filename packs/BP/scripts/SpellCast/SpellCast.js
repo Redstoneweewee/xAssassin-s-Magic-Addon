@@ -96,10 +96,11 @@ function onReleaseSpellCast(player, onEndCallback) {
     const enhanced = SpellBookUtil.hasAnyEnhanceItems(player, spellObject);
     const maxChargeLevel = enhanced ? 4 : 3;
     const chargeTime = playerObject.returnSpellChargeTime();
-    const chargeLevel = Math.min(maxChargeLevel, Math.floor(chargeTime / 16));
+    const necessaryCharge = spellObject.charge;
+    const chargeLevel = Math.min(maxChargeLevel, Math.floor(chargeTime / necessaryCharge));
 
-    if (chargeTime < 16) {
-        playerObject.queueActionbarDisplay("§cCharge for at least 16 ticks!", 2);
+    if (chargeTime < necessaryCharge) {
+        playerObject.queueActionbarDisplay(`§cCharge for at least ${necessaryCharge} ticks!`, 2);
         player.playSound("note.bass");
         return onEndCallback(SpellCastDisplayTexts.NoText);
     }
