@@ -20,17 +20,17 @@ const SpellCastDisplayTexts = {
     NoText: "",
     Succeeded: "§r",
     Cancelled: "§cCancelled",
-    NoBook: "§cYou don't have a spell book!",
+    NoBook: "§cYou don't have a spell book in your offhand!",
     NoSpells: "§cYour spell book has no spells!"
 }
 
 world.afterEvents.itemStartUse.subscribe(eventData => {
     noSpellBookWarning(eventData.source);
-    onStartSpellCast(eventData.source, (spellAction) => onEndSpellCast(eventData.source, spellAction));
+    onStartSpellCast(eventData.source, (SpellCastDisplayText) => onEndSpellCast(eventData.source, SpellCastDisplayText));
 });
 
 world.afterEvents.itemReleaseUse.subscribe(eventData => {
-    onReleaseSpellCast(eventData.source, (spellAction) => onEndSpellCast(eventData.source, spellAction));
+    onReleaseSpellCast(eventData.source, (SpellCastDisplayText) => onEndSpellCast(eventData.source, SpellCastDisplayText));
 });
 world.afterEvents.itemStopUse.subscribe(eventData => {
     onCancelSpellCast(eventData.source);
@@ -63,7 +63,7 @@ function onStartSpellCast(player, onEndCallback) {
     }
     //got past error checks
 
-    playerObject.startCountingSpellChargeTime();
+    playerObject.startSpellCast();
     SpellUtil.callSpellFunction(spellObject.spellFuncName, player);
     player.playSound("mob.evocation_illager.prepare_attack");
 
@@ -78,6 +78,7 @@ function onStartSpellCast(player, onEndCallback) {
  */
 function onReleaseSpellCast(player, onEndCallback) {
     const playerObject = PlayerUtil.getPlayerObject(player);
+    if(!playerObject.startedSpellCast) { return SpellCastDisplayTexts.NoText; }
     if (!playerObject.playerState.canCastSpells) return onEndCallback(SpellCastDisplayTexts.Cancelled);
 
     const offHandContainerSlot = PlayerUtil.getOffhandContainerSlot(player);
@@ -115,10 +116,12 @@ function onReleaseSpellCast(player, onEndCallback) {
  */
 function onEndSpellCast(player, SpellCastDisplayText) {
     const playerObject = PlayerUtil.getPlayerObject(player);
+    if(!playerObject.startedSpellCast) { return; }
     if(playerObject.spellChargeRunId) system.clearRun(playerObject.spellChargeRunId);
     if(SpellCastDisplayText !== SpellCastDisplayTexts.NoText && playerObject.playerState.canCastSpells) {
-        playerObject.queueActionbarDisplay(SpellCastDisplayText, 2);
+        playerObject.queueActionbarDisplay(SpellCastDisplayText, 1);
     }
+    playerObject.endSpellCast();
 }
 /**
  * Used specifically for itemStopUse 
@@ -126,8 +129,10 @@ function onEndSpellCast(player, SpellCastDisplayText) {
  */
 function onCancelSpellCast(player) {
     const playerObject = PlayerUtil.getPlayerObject(player);
+    if(!playerObject.startedSpellCast) { return; }
     if(playerObject.spellChargeRunId) system.clearRun(playerObject.spellChargeRunId);
     if(playerObject.playerState.canCastSpells) playerObject.queueActionbarDisplay("§cCancelled", 0);
+    playerObject.endSpellCast();
 }
 
 
@@ -138,7 +143,7 @@ function onCancelSpellCast(player) {
 function noSpellBookWarning(player) {
     if(PlayerUtil.holdingStaffMainhand(player) && !PlayerUtil.holdingSpellBookOffhand(player)) {
         const playerObject = PlayerUtil.getPlayerObject(player);
-        playerObject.queueActionbarDisplay(SpellCastDisplayTexts.NoBook, 2);
+        playerObject.queueActionbarDisplay(SpellCastDisplayTexts.NoBook, 1);
         player.playSound("note.bass");
     }
 }

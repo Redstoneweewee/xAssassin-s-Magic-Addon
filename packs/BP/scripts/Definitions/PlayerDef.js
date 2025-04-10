@@ -41,7 +41,7 @@ class PlayerObject {
     #actionbarQueues = new Map();
     #spellChargeStartTime = 0;
     playerState = PlayerStates.Default;
-    isCanCastSpells = false;
+    startedSpellCast = false;
     /** @type {number|undefined} */
     spellChargeRunId = undefined;
 
@@ -54,15 +54,20 @@ class PlayerObject {
         this.#runAllPlayerLoops();
     }
 
-    startCountingSpellChargeTime() {
+    startSpellCast() {
+        this.startedSpellCast = true;
         this.#spellChargeStartTime = system.currentTick;
     }
 
     /**
-     * @returns {number} the time elapsed since the previous startCountingSpellChargeTime()
+     * @returns {number} the time elapsed since the previous startSpellCast()
      */
     returnSpellChargeTime() {
         return system.currentTick - this.#spellChargeStartTime;
+    }
+
+    endSpellCast() {
+        this.startedSpellCast = false;
     }
 
     /**
@@ -184,7 +189,7 @@ class PlayerObject {
         }
 
         else if(this.playerState === PlayerStates.CanCastSpells) {
-            if(this.player.isSneaking) {
+            if(!this.startedSpellCast && this.player.isSneaking) {
                 this.playerState = PlayerStates.CanChangeSpells;
             }
             if(!(PlayerUtil.holdingSpellBookOffhand(this.player) && PlayerUtil.holdingStaffMainhand(this.player))) {

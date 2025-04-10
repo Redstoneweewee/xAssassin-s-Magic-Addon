@@ -300,11 +300,10 @@ class SpellBookUtil {
 
     
     /**
-     * This function automatically sets the player's container slot to the spell_book with the dynamic property appended.
+     * This function automatically sets the player's container slot to the spell_book with the dynamic property appended, and also changes its lore.
      * Also returns the new containerSlot if needed.
      * @param {ContainerSlot} spellBookContainerSlot - we must use containerSlot if we want to use dynamicProperties. It behaves the same as ItemStacks.
      * @param {SpellBook} spellBookObject
-     * @returns {ContainerSlot|undefined}
      */
     static setSpellBookObject(spellBookContainerSlot, spellBookObject) {
         if(!spellBookContainerSlot.hasTag(SpellBookTag)) {
@@ -317,23 +316,29 @@ class SpellBookUtil {
             return;
         }
         spellBookContainerSlot.setDynamicProperty("spellBookObject", string);
+        this.#updateSpellBookLore(spellBookContainerSlot, spellBookObject);
     }
 
     /**
      * 
      * @param {ContainerSlot} spellBookContainerSlot
-     * @returns {ContainerSlot|undefined}
+     * @param {SpellBook} spellBookObject
      */
-    static updateSpellBookLore(spellBookContainerSlot) {
-        const spellBookObject = SpellBookUtil.getSpellBookObject(spellBookContainerSlot);
-        if(spellBookObject === undefined) { return undefined; }
+    static #updateSpellBookLore(spellBookContainerSlot, spellBookObject) {
         let loreArray = ["§aSpell Slots:"];
         for(const spell of spellBookObject.getSpellsArray()) {
             const spellName = StringUtil.convertTagToName(spell.tag);
-            loreArray = [...loreArray, "§f"+spellName];
+            if(SpellUtil.isEmptySpell(spell)) {
+                loreArray = [...loreArray, "§7"+spellName];
+            }
+            else if(spell.tag === spellBookObject.getSelectedSpell().tag) {
+                loreArray = [...loreArray, `§f> §e${spellName} §f<§r`];
+            }
+            else {
+                loreArray = [...loreArray, "§f"+spellName];
+            }
         }
         spellBookContainerSlot.setLore(loreArray);
-        return spellBookContainerSlot;
     }
 
     

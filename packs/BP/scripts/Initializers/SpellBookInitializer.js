@@ -51,7 +51,6 @@ function checkContainerSlot(containerSlot, slotName) {
         return;
     }
     SpellBookUtil.setSpellBookObject(containerSlot, spellBookObject);
-    SpellBookUtil.updateSpellBookLore(containerSlot);
     const id = InitializationUtil.getNextUniqueSpellBookId();
     containerSlot.setDynamicProperty("spellBookItemId", id);
     console.log(`successfully initialized slot ${slotName} to spellBook ${spellBookObject.tag}, Id: ${id}`);

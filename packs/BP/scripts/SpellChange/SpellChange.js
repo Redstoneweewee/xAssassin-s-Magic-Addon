@@ -76,8 +76,13 @@ function tryChangeSpellBookSpell(player) {
  * @param {Player} player 
  */
 function tryAddSpellFromSpellScroll(player) {
-    if(!PlayerUtil.holdingSpellScrollMainhand(player) || !PlayerUtil.holdingSpellBookOffhand(player)) { return; }
     const playerObject = PlayerUtil.getPlayerObject(player);
+    if(PlayerUtil.holdingSpellScrollMainhand(player) && !PlayerUtil.holdingSpellBookOffhand(player)) {
+        playerObject.queueActionbarDisplay("§cHold a spell book in your offhand to add this spell!", 0);
+        player.playSound("note.bass");
+        return;
+    }
+    if(!PlayerUtil.holdingSpellScrollMainhand(player) || !PlayerUtil.holdingSpellBookOffhand(player)) { return; }
     const spellScrollItemStack = PlayerUtil.getMainhandItemStack(player);
     const spellBookContainerSlot = PlayerUtil.getOffhandContainerSlot(player);
     if(spellScrollItemStack   === undefined) { return; }
@@ -157,7 +162,6 @@ function showAddSpellForm(player, spellBookContainerSlot, spellBookObject, spell
 function applySpell(player, spellBookContainerSlot, spellBookObject, addSpellObject, addSpellName, overrideSlot) {
     spellBookObject.setSpell(overrideSlot, addSpellObject);
     SpellBookUtil.setSpellBookObject(spellBookContainerSlot, spellBookObject);
-    SpellBookUtil.updateSpellBookLore(spellBookContainerSlot);
     if(!PlayerUtil.isCreative(player)) { PlayerUtil.setMainhandItem(player, undefined); }
     player.sendMessage(`Added §b${addSpellName}§r to slot ${overrideSlot + 1}`);
     player.playSound("use.chiseled_bookshelf");
