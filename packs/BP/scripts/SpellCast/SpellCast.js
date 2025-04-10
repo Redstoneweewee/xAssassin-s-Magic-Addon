@@ -8,16 +8,20 @@ import { DisplayTypes } from "../Definitions/ScreenDisplayDef.js";
 
 
 /**
- * @typedef {object} SpellActionDef
- * @property {string} NoOverride don't override actionbar
- * @property {string} Succeeded override actionbar with ""
- * @property {string} Cancelled override actionbar with "Cancelled"
+ * @typedef {object} SpellCastDisplayDef
+ * @property {string} NoText 
+ * @property {string} Succeeded
+ * @property {string} Cancelled
+ * @property {string} NoBook
+ * @property {string} NoSpells
  */
-/** @type {SpellActionDef} */
-const SpellAction = {
-    NoOverride: "NoOverride",
-    Succeeded: "Succeeded",
-    Cancelled: "Cancelled"
+/** @type {SpellCastDisplayDef} */
+const SpellCastDisplayTexts = {
+    NoText: "",
+    Succeeded: "§r",
+    Cancelled: "§cCancelled",
+    NoBook: "§cYou don't have a spell book!",
+    NoSpells: "§cYour spell book has no spells!"
 }
 
 world.afterEvents.itemStartUse.subscribe(eventData => {
@@ -35,7 +39,7 @@ world.afterEvents.itemStopUse.subscribe(eventData => {
 world.afterEvents.entityDie.subscribe(eventData => {
     const entity = eventData.deadEntity;
     if(!(entity instanceof Player)) { return; }
-    onEndSpellCast(entity, SpellAction.Cancelled);
+    onEndSpellCast(entity, SpellCastDisplayTexts.Cancelled);
 });
 
 /**
@@ -45,16 +49,21 @@ world.afterEvents.entityDie.subscribe(eventData => {
  */
 function onStartSpellCast(player, onEndCallback) {
     const playerObject = PlayerUtil.getPlayerObject(player);
-    if(!playerObject.playerState.canCastSpells) return onEndCallback(SpellAction.NoOverride);
-    playerObject.startCountingSpellChargeTime();
+    if(!playerObject.playerState.canCastSpells) return onEndCallback(SpellCastDisplayTexts.NoText);
     const offHandContainerSlot = PlayerUtil.getOffhandContainerSlot(player);
-    if(offHandContainerSlot === undefined) return onEndCallback(SpellAction.Cancelled);
+    if(offHandContainerSlot === undefined) return onEndCallback(SpellCastDisplayTexts.Cancelled);
 
     const spellBookObject = SpellBookUtil.getSpellBookObject(offHandContainerSlot);
-    if(spellBookObject === undefined) return onEndCallback(SpellAction.Cancelled);
+    if(spellBookObject === undefined) return onEndCallback(SpellCastDisplayTexts.Cancelled);
 
     const spellObject = spellBookObject.getSelectedSpell();
+    if(SpellUtil.isEmptySpell(spellObject)) {
+        player.playSound("note.bass");
+        return onEndCallback(SpellCastDisplayTexts.NoSpells);
+    }
+    //got past error checks
 
+    playerObject.startCountingSpellChargeTime();
     SpellUtil.callSpellFunction(spellObject.spellFuncName, player);
     player.playSound("mob.evocation_illager.prepare_attack");
 
@@ -69,18 +78,20 @@ function onStartSpellCast(player, onEndCallback) {
  */
 function onReleaseSpellCast(player, onEndCallback) {
     const playerObject = PlayerUtil.getPlayerObject(player);
-    if (!playerObject.playerState.canCastSpells) return onEndCallback(SpellAction.Cancelled);
+    if (!playerObject.playerState.canCastSpells) return onEndCallback(SpellCastDisplayTexts.Cancelled);
 
     const offHandContainerSlot = PlayerUtil.getOffhandContainerSlot(player);
-    if (offHandContainerSlot === undefined) return onEndCallback(SpellAction.Cancelled);
+    if (offHandContainerSlot === undefined) return onEndCallback(SpellCastDisplayTexts.Cancelled);
 
     const container = PlayerUtil.getContainer(player);
-    if (container === undefined) return onEndCallback(SpellAction.Cancelled);
+    if (container === undefined) return onEndCallback(SpellCastDisplayTexts.Cancelled);
 
     const spellBookObject = SpellBookUtil.getSpellBookObject(offHandContainerSlot);
-    if (spellBookObject === undefined) return onEndCallback(SpellAction.Cancelled);
-
+    if (spellBookObject === undefined) return onEndCallback(SpellCastDisplayTexts.Cancelled);
     const spellObject = spellBookObject.getSelectedSpell();
+    if(SpellUtil.isEmptySpell(spellObject)) return onEndCallback(SpellCastDisplayTexts.NoSpells);
+    //got past error checks
+
     const enhanced = SpellBookUtil.hasAnyEnhanceItems(player, spellObject);
     const maxChargeLevel = enhanced ? 4 : 3;
     const chargeTime = playerObject.returnSpellChargeTime();
@@ -89,27 +100,24 @@ function onReleaseSpellCast(player, onEndCallback) {
     if (chargeTime < 16) {
         playerObject.queueActionbarDisplay("§cCharge for at least 16 ticks!", 2);
         player.playSound("note.bass");
-        return onEndCallback(SpellAction.NoOverride);
+        return onEndCallback(SpellCastDisplayTexts.NoText);
     }
 
     SpellUtil.castSpell(spellObject.spellFuncName, player, chargeLevel);
-    return onEndCallback(SpellAction.Succeeded);
+    return onEndCallback(SpellCastDisplayTexts.Succeeded);
 }
 
 
 /**
  * Should be called after every scenario in which spell casting has ended
  * @param {Player} player 
- * @param {string} spellAction 
+ * @param {string} SpellCastDisplayText 
  */
-function onEndSpellCast(player, spellAction) {
+function onEndSpellCast(player, SpellCastDisplayText) {
     const playerObject = PlayerUtil.getPlayerObject(player);
     if(playerObject.spellChargeRunId) system.clearRun(playerObject.spellChargeRunId);
-    if(spellAction === SpellAction.Cancelled) {
-        if(playerObject.playerState.canCastSpells) playerObject.queueActionbarDisplay("§cCancelled", 2);
-    }
-    else if(spellAction === SpellAction.Succeeded) {
-        if(playerObject.playerState.canCastSpells) playerObject.queueActionbarDisplay("§r", 1);
+    if(SpellCastDisplayText !== SpellCastDisplayTexts.NoText && playerObject.playerState.canCastSpells) {
+        playerObject.queueActionbarDisplay(SpellCastDisplayText, 2);
     }
 }
 /**
@@ -130,7 +138,7 @@ function onCancelSpellCast(player) {
 function noSpellBookWarning(player) {
     if(PlayerUtil.holdingStaffMainhand(player) && !PlayerUtil.holdingSpellBookOffhand(player)) {
         const playerObject = PlayerUtil.getPlayerObject(player);
-        playerObject.queueActionbarDisplay("§cYou don't have a spell book!", 2);
+        playerObject.queueActionbarDisplay(SpellCastDisplayTexts.NoBook, 2);
         player.playSound("note.bass");
     }
 }

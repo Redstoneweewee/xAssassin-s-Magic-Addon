@@ -205,8 +205,7 @@ class SpellUtil {
      * @returns {boolean}
      */
     static isEmptySpell(spell) {
-        if(spell.tag === emptySpell.tag) { return true; }
-        return false;
+        return spell.tag === emptySpell.tag;
     }
 
     static getSpawnY(dimension, x, z, baseY, isRing = false) {

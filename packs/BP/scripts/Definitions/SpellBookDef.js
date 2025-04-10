@@ -1,7 +1,6 @@
 import { Player } from '@minecraft/server';
 import { Spell } from './SpellDef';
 import { emptySpell } from '../Lists/SpellsList';
-import { SpellUtil } from '../Utilities';
 
 /**
  * @typedef {object} SpellBookDef
@@ -52,7 +51,7 @@ class SpellBook {
     incrementSelectedSlot() {
         for(let i=1; i<this.tier; i++) {
             let nextSlot = (this.#selectedSlot+i) % this.tier;
-            if(!SpellUtil.isEmptySpell(this.#spells[nextSlot])) {
+            if(!this.#isEmptySpell(this.#spells[nextSlot])) {
                 this.#selectedSlot = nextSlot;
                 console.log(`new selected slot: ${this.#selectedSlot}`);
                 return;
@@ -71,6 +70,8 @@ class SpellBook {
             return;
         }
         this.#spells[slotNumber] = spell;
+
+        this.#tryChangeSelectedSlot();
     }
 
     /**
@@ -85,7 +86,7 @@ class SpellBook {
     getPreviousSpell() {
         for(let i=1; i<this.tier; i++) {
             const nextPrevSpell = this.#spells[(this.#selectedSlot+(this.tier-i)) % this.tier];
-            if(!SpellUtil.isEmptySpell(nextPrevSpell)) {
+            if(!this.#isEmptySpell(nextPrevSpell)) {
                 return nextPrevSpell;
             }
         }
@@ -97,7 +98,7 @@ class SpellBook {
     getNextSpell() {
         for(let i=1; i<this.tier; i++) {
             const nextSpell = this.#spells[(this.#selectedSlot+i) % this.tier];
-            if(!SpellUtil.isEmptySpell(nextSpell)) {
+            if(!this.#isEmptySpell(nextSpell)) {
                 return nextSpell;
             }
         }
@@ -109,6 +110,19 @@ class SpellBook {
      */
     getSpellsArray() {
         return this.#spells;
+    }
+
+    /**
+     * try to change selectedSlot to non-empty spell slot if it is currently empty.
+     */
+    #tryChangeSelectedSlot() {
+        if(!this.#isEmptySpell(this.#spells[this.#selectedSlot])) { return; }
+        for(let i=0; i<this.#spells.length; i++) {
+            if(!this.#isEmptySpell(this.#spells[i])) {
+                this.#selectedSlot = i;
+                return;
+            }
+        }
     }
 
     toJSON() {
@@ -125,6 +139,14 @@ class SpellBook {
 
     getInherentSpell(index) {
         return this.#inherentSpells[index];
+    }
+
+    /**
+     * We need a special one here becase SpellUtil might not be initialized yet
+     * @param {Spell} spell
+     */
+    #isEmptySpell(spell) {
+        return spell.tag === emptySpell.tag
     }
 }
 
