@@ -281,7 +281,7 @@ const Spells = [
     {
         tag: "minorHealing",
         enterFuncName: "none",
-        spellFuncName: "minorHealingSpellExitFunction",
+        spellFuncName: "minorHealingExitFunction",
         enhanceItems: []
     },
     {

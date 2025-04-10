@@ -6,19 +6,19 @@ const SpellScrollTag = "xassassin:spell_scroll";
 const SpellBooks = [
     {
         tag: "xassassin:fang_line_spell_scroll",
-        spellName: "fangLine"
+        spellTag: "fangLine"
     },
     {
         tag: "xassassin:fireball_spell_scroll",
-        spellName: "fireball"
+        spellTag: "fireball"
     },
     {
         tag: "xassassin:minor_healing_spell_scroll",
-        spellName: "minorHealing"
+        spellTag: "minorHealing"
     },
     {
         tag: "xassassin:wind_dash_spell_scroll",
-        spellName: "windDash"
+        spellTag: "windDash"
     }
 ]
 /** @type {Map<string, Def.SpellScroll>} */

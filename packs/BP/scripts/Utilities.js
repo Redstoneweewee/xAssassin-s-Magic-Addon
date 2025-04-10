@@ -1,7 +1,8 @@
-import { Container, ContainerSlot, EntityComponentTypes, EntityEquippableComponent, EntityInventoryComponent, EquipmentSlot, ItemStack, Player, PlayerCursorInventoryComponent, world } from "@minecraft/server";
+import { Container, ContainerSlot, EntityComponentTypes, EntityEquippableComponent, EntityInventoryComponent, EquipmentSlot, GameMode, ItemStack, Player, PlayerCursorInventoryComponent, world } from "@minecraft/server";
+import { ActionFormData } from "@minecraft/server-ui";
 import { SpellBook } from "./Definitions/SpellBookDef";
 import { SpellBookTag } from "./Lists/SpellBooksList";
-import { SpellFunctionsMap } from "./Lists/SpellsList";
+import { emptySpell, SpellFunctionsMap } from "./Lists/SpellsList";
 import { PlayerObject } from "./Definitions/PlayerDef";
 import { PlayerObjectsMap } from "./Player";
 import { Spell } from "./Definitions/SpellDef";
@@ -10,6 +11,15 @@ import { SpellScrollTag } from "./Lists/SpellScrollsList";
 
 
 class PlayerUtil {
+
+    /**
+     * @param {Player} player 
+     * @returns {boolean}
+     */
+    static isCreative(player) {
+        return player.getGameMode() === GameMode.creative;
+    }
+
     /**
      * @param {Player} player 
      * @returns {PlayerObject}
@@ -172,11 +182,33 @@ class PlayerUtil {
         if(!mainhandItemStack.getTags().includes(SpellScrollTag)) { return false; }
         return true;
     }
+
+    
+    /**
+     * 
+     * @param {Player} player 
+     * @param {ItemStack} [itemStack] none = empty item
+     */
+    static setMainhandItem(player, itemStack) {
+        const mainhandContainerSlot = PlayerUtil.getMainhandContainerSlot(player);
+        if(mainhandContainerSlot === undefined) { return; }
+        mainhandContainerSlot.setItem(itemStack);
+    }
 }
 
 
 class SpellUtil {
     
+    /**
+     * 
+     * @param {Spell} spell 
+     * @returns {boolean}
+     */
+    static isEmptySpell(spell) {
+        if(spell.tag === emptySpell.tag) { return true; }
+        return false;
+    }
+
     static getSpawnY(dimension, x, z, baseY, isRing = false) {
         let y = isRing ? baseY + 2 : baseY
         let block = dimension.getBlock({ x: Math.floor(x), y, z: Math.floor(z) })
@@ -322,6 +354,27 @@ class SpellBookUtil {
     }
 }
 
+
+class FormUtil {
+
+    /**
+     * 
+     * @param {Player} player 
+     * @param {string} title 
+     * @param {string} message 
+     * @returns {Promise<boolean>}
+     */
+    static showConfirmationForm(player, title, message) {
+        const confirmationForm = new ActionFormData().title(title).body(message).button("Yes").button("No");
+        return confirmationForm.show(player).then(response => {
+            if(response.canceled || response.selection === 1) {
+                return false;
+            }
+            return true;
+        });
+    }
+}
+
 class InitializationUtil {
     /**
      * 
@@ -375,4 +428,4 @@ class JSONUtil {
     }
 }
 
-export { PlayerUtil, SpellUtil, SpellBookUtil, StringUtil, InitializationUtil };
+export { PlayerUtil, SpellUtil, SpellBookUtil, FormUtil, StringUtil, InitializationUtil };

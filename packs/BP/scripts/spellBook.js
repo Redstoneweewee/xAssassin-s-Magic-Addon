@@ -417,8 +417,8 @@ function updateChargeIndicator() {
     }
 }
 */
-function handleItemUse({ source: player }) {
     /*
+function handleItemUse({ source: player }) {
     const mainHand = player.getComponent("minecraft:equippable").getEquipment("Mainhand")
     const offHand = player.getComponent("minecraft:equippable").getEquipment("Offhand")
     if (!mainHand) return
@@ -451,8 +451,7 @@ function handleItemUse({ source: player }) {
         } else {
             player.onScreenDisplay.setActionBar("No spells available")
         }
-    } 
-    */        
+    }   
    const mainHand = player.getComponent("minecraft:equippable").getEquipment("Mainhand")
    const offHand = player.getComponent("minecraft:equippable").getEquipment("Offhand")
 
@@ -502,6 +501,7 @@ function handleItemUse({ source: player }) {
         }
     }
 }
+    */      
 /*
 function handleItemStartUse({ source: player, itemStack: item }) {
     if (!item || !item.getTags().includes("xassassin:magic_staff") || player.isSneaking) return
@@ -604,7 +604,7 @@ system.afterEvents.scriptEventReceive.subscribe(event => {
 //}, 5);
 
 //system.runInterval(updateChargeIndicator, 1);
-world.afterEvents.itemUse.subscribe(handleItemUse);
+//world.afterEvents.itemUse.subscribe(handleItemUse);
 //world.afterEvents.itemStartUse.subscribe(handleItemStartUse);
 //world.afterEvents.itemReleaseUse.subscribe(eventData => {
 //    handleItemReleaseUse(eventData.source, eventData.itemStack);
