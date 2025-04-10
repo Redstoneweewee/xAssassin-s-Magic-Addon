@@ -323,6 +323,7 @@ for(const spellFunction of SpellFunctionsList) {
 
 /** @type {Map<string, SpellsDef.Spell>} */
 const SpellObjects = new Map();
+SpellObjects.set(emptySpell.tag, new SpellsDef.Spell(emptySpell));
 Spells.forEach(spell => {
     SpellObjects.set(spell.tag, new SpellsDef.Spell(spell));
 });

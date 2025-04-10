@@ -21,7 +21,6 @@ function startChargeIndicator(player, spellObject) {
     if(offHandContainerSlot === undefined) { return; }
 
     const necessaryCharge = spellObject.charge;
-    console.log(necessaryCharge);
     const enhanced = SpellBookUtil.hasAnyEnhanceItems(player, spellObject);
     const maxChargeLevel = enhanced ? 4 : 3;
     //The interval is cleared in SpellCast.onEndSpellCast();

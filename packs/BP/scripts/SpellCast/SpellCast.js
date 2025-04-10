@@ -132,7 +132,7 @@ function onCancelSpellCast(player) {
     const playerObject = PlayerUtil.getPlayerObject(player);
     if(!playerObject.startedSpellCast) { return; }
     if(playerObject.spellChargeRunId) system.clearRun(playerObject.spellChargeRunId);
-    if(playerObject.playerState.canCastSpells) playerObject.queueActionbarDisplay("§cCancelled", 0);
+    playerObject.queueActionbarDisplay("§cCancelled", 0);
     playerObject.endSpellCast();
 }
 

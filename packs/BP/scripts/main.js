@@ -7,3 +7,6 @@ import './Player.js';
 import './Initializers/SpellBookInitializer.js';
 import './SpellCast/SpellCast.js';
 import './SpellChange/SpellChange.js';
+
+
+export const verbose = false;

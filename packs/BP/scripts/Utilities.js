@@ -7,6 +7,7 @@ import { PlayerObject } from "./Definitions/PlayerDef";
 import { PlayerObjectsMap } from "./Player";
 import { Spell } from "./Definitions/SpellDef";
 import { SpellScrollTag } from "./Lists/SpellScrollsList";
+import { verbose } from "./main";
 
 
 
@@ -287,14 +288,14 @@ class SpellBookUtil {
     static getSpellBookObject(spellBookContainerSlot) {
         const raw = String(spellBookContainerSlot.getDynamicProperty("spellBookObject"));
         if(raw === "") { return undefined; }
-        try { 
+        //try { 
             const object = JSONUtil.reconstructSpellBook(raw);
             return object;
-        }
-        catch { 
-            console.error(`unable to parse ${spellBookContainerSlot.typeId} into a SpellBookObject.`);
-            return undefined;
-        }
+        //}
+        //catch { 
+        //    console.error(`unable to parse ${spellBookContainerSlot.typeId} into a SpellBookObject.`);
+        //    return undefined;
+        //}
     }
 
 
@@ -311,6 +312,7 @@ class SpellBookUtil {
             return;
         }
         const string = JSON.stringify(spellBookObject);
+        if(verbose) console.log(`stringified spellbook: ${string}`);
         if(string.length > 32767) {
             console.error(`spellBookObject stringified is too long and exceeds 32767 chars.`);
             return;
@@ -426,7 +428,7 @@ class JSONUtil {
                                 tier: raw.tier,
                                 inherentSpells: raw.inherentSpells
                               }, 
-                              raw.spells, 
+                              raw.spellTags, 
                               raw.selectedSlot);
         return spellBook;
     }

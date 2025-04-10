@@ -1,6 +1,6 @@
 import { Player } from '@minecraft/server';
 import { Spell } from './SpellDef';
-import { emptySpell } from '../Lists/SpellsList';
+import { emptySpell, SpellObjects } from '../Lists/SpellsList';
 
 /**
  * @typedef {object} SpellBookDef
@@ -14,7 +14,7 @@ import { emptySpell } from '../Lists/SpellsList';
  * @property {string} tag 
  * @property {number} tier 
  * @property {import('./SpellDef').SpellDef[]} inherentSpells 
- * @property {import('./SpellDef').SpellDef[]} spells
+ * @property {string[]} spellTags
  * @property {number} selectedSlot 
  */
 
@@ -25,16 +25,16 @@ class SpellBook {
     #selectedSlot;
     /**
      * @param {SpellBookDef} spellBooksDef
-     * @param {Spell[]} [spells] Only used for reconstruction
+     * @param {string[]} [spellTags] Only used for reconstruction
      * @param {number} [selectedSlot] Only used for reconstruction
      */
-    constructor(spellBooksDef, spells = [], selectedSlot = 0) {
+    constructor(spellBooksDef, spellTags = [], selectedSlot = 0) {
         this.tag = spellBooksDef.tag;
         this.tier = spellBooksDef.tier;
         this.#inherentSpells = spellBooksDef.inherentSpells;
-        this.#spells = spells;
-        this.#selectedSlot = selectedSlot;
-        if(spells.length === 0) { //only do this if it isn't reconstruction
+        this.#selectedSlot = 0;
+        this.#spells = [];
+        if(spellTags.length === 0) { //only do this if it isn't reconstruction
             if(this.#inherentSpells.length > this.tier) {
                 console.error(`The number of inherent spells: (${this.#inherentSpells.length}) must be <= tier: (${this.tier})`);
             }
@@ -45,6 +45,17 @@ class SpellBook {
                 this.setSpell(i, emptySpell);
             }
         }
+        else {
+            for(let i=0; i<spellTags.length; i++) {
+                let spell = SpellObjects.get(spellTags[i]);
+                if(spell === undefined) {
+                    console.log(`undefined spell used during reconstruction: ${spellTags[i]}, set to empty slot instead.`);
+                    spell = emptySpell;
+                }
+                this.setSpell(i, spell);
+            }
+        }
+        this.#selectedSlot = selectedSlot;
     }
 
 
@@ -126,12 +137,17 @@ class SpellBook {
     }
 
     toJSON() {
+        /** @type {string[]} */
+        const spellTags = [];
+        for(const spell of this.#spells) {
+            spellTags.push(spell.tag);
+        }
         /** @type {SpellBookJSONDef} */
         const object = {
             tag: this.tag,
             tier: this.tier,
             inherentSpells: this.#inherentSpells,
-            spells: this.#spells,
+            spellTags: spellTags,
             selectedSlot: this.#selectedSlot
         };
         return object;
