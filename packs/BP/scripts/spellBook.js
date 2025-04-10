@@ -555,7 +555,7 @@ function handleItemReleaseUse(player, mainHand) {
     const spell = spells[playerSpellIndices.get(player.id) || 0];
     const spellObject = SpellObjects.get(spell);
     if(spellObject) {
-        SpellUtil.castSpell(spellObject.spellFuncName, player, chargeLevel);
+        SpellUtil.castSpell(spellObject.exitFuncName, player, chargeLevel);
         player.playSound("mob.evocation_illager.cast_spell");
     }
     else {

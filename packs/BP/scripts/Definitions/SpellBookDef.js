@@ -13,7 +13,7 @@ import { emptySpell, SpellObjects } from '../Lists/SpellsList';
  * @typedef {object} SpellBookJSONDef
  * @property {string} tag 
  * @property {number} tier 
- * @property {import('./SpellDef').SpellDef[]} inherentSpells 
+ * @property {Spell[]} inherentSpells 
  * @property {string[]} spellTags
  * @property {number} selectedSlot 
  */
@@ -73,7 +73,7 @@ class SpellBook {
 
     /**
      * @param {number} slotNumber 
-     * @param {import('./SpellDef').SpellDef} spell 
+     * @param {Spell} spell 
      */
     setSpell(slotNumber, spell) {
         if(slotNumber < 0 || slotNumber >= this.tier) {

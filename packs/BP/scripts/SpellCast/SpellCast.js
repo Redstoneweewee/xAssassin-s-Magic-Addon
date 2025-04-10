@@ -64,7 +64,7 @@ function onStartSpellCast(player, onEndCallback) {
     //got past error checks
 
     playerObject.startSpellCast();
-    SpellUtil.callSpellFunction(spellObject.spellFuncName, player);
+    SpellUtil.callSpellEnterFunction(spellObject.enterFuncName, player);
     player.playSound("mob.evocation_illager.prepare_attack");
 
     SpellCharge.startChargeIndicator(player, spellObject);
@@ -105,7 +105,7 @@ function onReleaseSpellCast(player, onEndCallback) {
         return onEndCallback(SpellCastDisplayTexts.NoText);
     }
 
-    SpellUtil.castSpell(spellObject.spellFuncName, player, chargeLevel);
+    SpellUtil.callSpellExitFunction(spellObject.exitFuncName, player, chargeLevel);
     return onEndCallback(SpellCastDisplayTexts.Succeeded);
 }
 

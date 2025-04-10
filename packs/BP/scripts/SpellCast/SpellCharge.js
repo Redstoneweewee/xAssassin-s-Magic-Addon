@@ -1,5 +1,5 @@
 import { world, Player, system } from "@minecraft/server";
-import { PlayerUtil, SpellBookUtil, StringUtil } from "../Utilities";
+import { PlayerUtil, SpellBookUtil, SpellUtil, StringUtil } from "../Utilities";
 import { Spell } from "../Definitions/SpellDef";
 
 const unchargedSymbol = "§r§7[§f-§7]§r";
@@ -52,6 +52,7 @@ function startChargeIndicator(player, spellObject) {
             const pitch = basePitch + chargeLevel * pitchIncrement
             player.playSound("random.orb", { pitch: Math.min(pitch, 2.0) })
         }
+        SpellUtil.callSpellParticleFunction(spellObject.particleFuncName, player, chargeLevel);
     }, 2);
 }
 

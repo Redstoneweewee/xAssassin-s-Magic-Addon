@@ -2,7 +2,10 @@ import { Container, ContainerSlot, EntityComponentTypes, EntityEquippableCompone
 import { ActionFormData } from "@minecraft/server-ui";
 import { SpellBook } from "./Definitions/SpellBookDef";
 import { SpellBookTag } from "./Lists/SpellBooksList";
-import { emptySpell, SpellFunctionsMap } from "./Lists/SpellsList";
+import { SpellEnterFunctionsList } from "./Lists/SpellEnterFunctionsList";
+import { SpellParticleFunctionsList } from "./Lists/SpellParticleFunctionsList";
+import { SpellExitFunctionsList } from "./Lists/SpellExitFunctionsList";
+import { emptySpell } from "./Lists/SpellsList";
 import { PlayerObject } from "./Definitions/PlayerDef";
 import { PlayerObjectsMap } from "./Player";
 import { Spell } from "./Definitions/SpellDef";
@@ -250,34 +253,49 @@ class SpellUtil {
     }
 
     /**
+     * @param {string} functionName 
+     * @param {Player} player 
+     * @param {number} [chargeLevel] 
+     */
+    static callSpellEnterFunction(functionName, player, chargeLevel = 0) {
+        const spellFunction = SpellEnterFunctionsList.get(functionName);
+        if(spellFunction === undefined) {
+            console.warn(`spell function ${functionName} could not be found in SpellEnterFunctionsList.`);
+            return;
+        }
+        spellFunction(player, chargeLevel);
+    }
+    
+    /**
+     * @param {string} functionName 
+     * @param {Player} player 
+     * @param {number} chargeLevel
+     */
+    static callSpellParticleFunction(functionName, player, chargeLevel) {
+        const spellFunction = SpellParticleFunctionsList.get(functionName);
+        if(spellFunction === undefined) {
+            console.warn(`spell function ${functionName} could not be found in SpellEnterFunctionsList.`);
+            return;
+        }
+        spellFunction(player, chargeLevel);
+    }
+
+    /**
      * 
      * @param {string} functionName 
      * @param {Player} player 
      * @param {number} chargeLevel 
      */
-    static castSpell(functionName, player, chargeLevel) {
-        const spellFunction = SpellFunctionsMap.get(functionName);
+    static callSpellExitFunction(functionName, player, chargeLevel) {
+        const spellFunction = SpellExitFunctionsList.get(functionName);
         if(spellFunction === undefined) {
-            console.warn(`spell function ${functionName} could not be found in SpellFunctionsMap.`);
+            console.warn(`spell function ${functionName} could not be found in SpellExitFunctionsList.`);
             return;
         }
         spellFunction(player, chargeLevel);
         player.playSound("mob.evocation_illager.cast_spell");
     }
 
-    /**
-     * @param {string} functionName 
-     * @param {Player} player 
-     * @param {number} [chargeLevel] 
-     */
-    static callSpellFunction(functionName, player, chargeLevel = 0) {
-        const spellFunction = SpellFunctionsMap.get(functionName);
-        if(spellFunction === undefined) {
-            console.warn(`spell function ${functionName} could not be found in SpellFunctionsMap.`);
-            return;
-        }
-        spellFunction(player, chargeLevel);
-    }
 }
 
 class SpellBookUtil {

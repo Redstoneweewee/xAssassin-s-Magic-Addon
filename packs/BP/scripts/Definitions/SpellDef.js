@@ -1,22 +1,15 @@
 import { Player } from '@minecraft/server';
 
-/**
- * @typedef {object} SpellDef
- * @property {string} tag 
- * @property {number} charge - The time it takes to charge 1 bar
- * @property {string} enterFuncName 
- * @property {string} spellFuncName
- * @property {string[]} enhanceItems
- */
 class Spell {
     /**
-     * @param {SpellDef} spellDef
+     * @param {Spell} spellDef
      */
     constructor(spellDef) {
         this.tag = spellDef.tag;
         this.charge = spellDef.charge;
-        this.enterFuncName = spellDef.enterFuncName;
-        this.spellFuncName = spellDef.spellFuncName;
+        this.enterFuncName = spellDef.enterFuncName ? spellDef.enterFuncName : "none";
+        this.particleFuncName = spellDef.particleFuncName ? spellDef.particleFuncName : "none";
+        this.exitFuncName = spellDef.exitFuncName ? spellDef.exitFuncName : "none";
         this.enhanceItems = spellDef.enhanceItems;
     }
 }
