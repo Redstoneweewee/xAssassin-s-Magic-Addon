@@ -28,7 +28,7 @@ function updateInventory(player) {
             }
         }
         const tags = item.getTags();
-        if (tags.includes("xassassin:spellbook")) {
+        if (tags.includes("xassassin:spell_book")) {
             for (let tier = 1; tier <= 6; tier++) {
                 if (tags.includes(`xassassin:tier_${tier}`) && !lore.includes("§aSpell Slots:")) {
                     item.setLore(["§aSpell Slots:", ...Array(tier).fill("§fEmpty Spell Slot")]);
@@ -373,7 +373,7 @@ function spawnChargeParticles(player, chargeLevel, spell) {
 
 
 
-
+/*
 function updateChargeIndicator() {
     for (const player of world.getPlayers()) {
         const startTick = playerChargeStart.get(player.id)
@@ -390,7 +390,7 @@ function updateChargeIndicator() {
         const hasDragonBreath = Array.from({ length: inventory.size }, (_, i) => inventory.getItem(i)).some(item => item && item.typeId === "minecraft:dragon_breath")
         let maxChargeLevel = 3
         let currentSpell = ""
-        if (offHand && offHand.getTags().includes("xassassin:spellbook")) {
+        if (offHand && offHand.getTags().includes("xassassin:spell_book")) {
             const spells = offHand.getLore().slice(offHand.getLore().indexOf("§aSpell Slots:") + 1).filter(line => line !== "§fEmpty Spell Slot").map(line => line.replace("§f", ""))
             currentSpell = spells[playerSpellIndices.get(player.id) || 0]
             if (hasDragonBreath && currentSpell === "Fireball") {
@@ -398,10 +398,10 @@ function updateChargeIndicator() {
             }
         }
         const chargeLevel = Math.min(maxChargeLevel, Math.floor(chargeTime / 16))
-        let display = offHand && offHand.getTags().includes("xassassin:spellbook") ? offHand.getLore().slice(offHand.getLore().indexOf("§aSpell Slots:") + 1).filter(line => line !== "§fEmpty Spell Slot").map(line => line.replace("§f", ""))[playerSpellIndices.get(player.id) || 0] + "\n" : ""
+        let display = offHand && offHand.getTags().includes("xassassin:spell_book") ? offHand.getLore().slice(offHand.getLore().indexOf("§aSpell Slots:") + 1).filter(line => line !== "§fEmpty Spell Slot").map(line => line.replace("§f", ""))[playerSpellIndices.get(player.id) || 0] + "\n" : ""
         display += maxChargeLevel === 4 ? Array(4).fill(0).map((_, i) => i < chargeLevel ? (i === 3 ? "§5[§d+§5]§r" : "§a[§e+§a]§r") : "§7[§f-§7]§r").join(" ") : Array(3).fill(0).map((_, i) => i < chargeLevel ? "§a[§e+§a]§r" : "§7[§f-§7]§r").join(" ")
         player.onScreenDisplay.setActionBar(display)
-        if (offHand && offHand.getTags().includes("xassassin:spellbook")) {
+        if (offHand && offHand.getTags().includes("xassassin:spell_book")) {
             if (["Fireball", "Woololo", "Fang Attack", "Fang Line", "Wind Dash"].includes(currentSpell)) {
                 if (system.currentTick % 2 === 0) {
                     spawnChargeParticles(player, chargeLevel, currentSpell)
@@ -416,12 +416,14 @@ function updateChargeIndicator() {
         }
     }
 }
+*/
 function handleItemUse({ source: player }) {
+    /*
     const mainHand = player.getComponent("minecraft:equippable").getEquipment("Mainhand")
     const offHand = player.getComponent("minecraft:equippable").getEquipment("Offhand")
     if (!mainHand) return
     const mainTags = mainHand.getTags()
-    if (mainTags.includes("xassassin:spellbook") || mainHand.typeId === "xassassin:evoker_spell_book") {
+    if (mainTags.includes("xassassin:spell_book") || mainHand.typeId === "xassassin:evoker_spell_book") {
         const lore = mainHand.getLore()
         const spellSlotsIndex = lore.indexOf("§aSpell Slots:")
         if (spellSlotsIndex === -1) return
@@ -435,7 +437,7 @@ function handleItemUse({ source: player }) {
     }
     if (!offHand) return
     const offTags = offHand.getTags()
-    if (mainTags.includes("xassassin:magic_staff") && offTags.includes("xassassin:spellbook") && player.isSneaking) {
+    if (mainTags.includes("xassassin:magic_staff") && offTags.includes("xassassin:spell_book") && player.isSneaking) {
         const lore = offHand.getLore()
         const spells = lore.slice(lore.indexOf("§aSpell Slots:") + 1).filter(line => line !== "§fEmpty Spell Slot").map(line => line.replace("§f", ""))
         if (spells.length) {
@@ -450,7 +452,13 @@ function handleItemUse({ source: player }) {
             player.onScreenDisplay.setActionBar("No spells available")
         }
     } 
-    else if (offTags.includes("xassassin:spellbook")) {
+    */        
+   const mainHand = player.getComponent("minecraft:equippable").getEquipment("Mainhand")
+   const offHand = player.getComponent("minecraft:equippable").getEquipment("Offhand")
+
+   const mainTags = mainHand.getTags()
+    const offTags = offHand.getTags()
+    if (offTags.includes("xassassin:spell_book")) {
         const scrollTag = mainTags.find(tag => tag.startsWith("spellscroll:"))
         if (scrollTag) {
             const spellName = "§f" + scrollTag.replace("spellscroll:", "").replace(/_/g, " ").split(" ").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ")
@@ -461,7 +469,7 @@ function handleItemUse({ source: player }) {
             const currentSlots = lore.slice(spellSlotsIndex + 1)
             const slots = currentSlots.length >= tier ? currentSlots.slice(0, tier) : currentSlots.concat(Array(tier - currentSlots.length).fill("§fEmpty Spell Slot"))
             if (slots.includes(spellName)) {
-                player.onScreenDisplay.setActionBar("Cant have two identical spells on one spellbook")
+                player.onScreenDisplay.setActionBar("Cant have two identical spells on one spell_book")
                 player.playSound("random.orb")
                 return
             }
@@ -499,7 +507,7 @@ function handleItemStartUse({ source: player, itemStack: item }) {
     if (!item || !item.getTags().includes("xassassin:magic_staff") || player.isSneaking) return
     playerChargeStart.set(player.id, system.currentTick)
     const offHand = player.getComponent("minecraft:equippable").getEquipment("Offhand")
-    if (offHand && offHand.getTags().includes("xassassin:spellbook")) {
+    if (offHand && offHand.getTags().includes("xassassin:spell_book")) {
         const spells = offHand.getLore().slice(offHand.getLore().indexOf("§aSpell Slots:") + 1).filter(line => line !== "§fEmpty Spell Slot").map(line => line.replace("§f", ""))
         if (spells.length) {
             const spell = spells[playerSpellIndices.get(player.id) || 0]
@@ -521,7 +529,7 @@ function handleItemReleaseUse(player, mainHand) {
     const equippable = player.getComponent(EntityComponentTypes.Equippable);
     if(equippable === undefined || !(equippable instanceof EntityEquippableComponent)) { return; }
     const offHand = equippable.getEquipment(EquipmentSlot.Offhand);
-    if (!mainHand || !offHand || !mainHand.getTags().includes("xassassin:magic_staff") || !offHand.getTags().includes("xassassin:spellbook") || player.isSneaking) {
+    if (!mainHand || !offHand || !mainHand.getTags().includes("xassassin:magic_staff") || !offHand.getTags().includes("xassassin:spell_book") || player.isSneaking) {
         playerChargeStart.delete(player.id);
         return;
     }
@@ -595,7 +603,7 @@ system.afterEvents.scriptEventReceive.subscribe(event => {
 //    });
 //}, 5);
 
-system.runInterval(updateChargeIndicator, 1);
+//system.runInterval(updateChargeIndicator, 1);
 world.afterEvents.itemUse.subscribe(handleItemUse);
 //world.afterEvents.itemStartUse.subscribe(handleItemStartUse);
 //world.afterEvents.itemReleaseUse.subscribe(eventData => {

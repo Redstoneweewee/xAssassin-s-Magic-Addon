@@ -2,18 +2,19 @@
   "format_version": "1.20.50",
   "minecraft:item": {
     "description": {
-      "identifier": "xassassin:minor_healing_spell_scroll",
+      "identifier": "xassassin:fireball_spell_scroll",
       "is_experimental": false
     },
     "components": {
       "minecraft:icon": "xassassin:spell_scroll",
       "minecraft:display_name": {
-        "value": "Minor Healing Spell Scroll"
+        "value": "Fireball Spell Scroll"
       },
       "minecraft:max_stack_size": 1,
       "minecraft:tags": {
         "tags": [
-          "spellscroll:minor_healing_spell"
+          "xassassin:spell_scroll",
+          "spellscroll:fireball"
         ]
       }
     }

@@ -2,18 +2,19 @@
   "format_version": "1.20.50",
   "minecraft:item": {
     "description": {
-      "identifier": "xassassin:fang_line_spell_scroll",
+      "identifier": "xassassin:wind_dash_spell_scroll",
       "is_experimental": false
     },
     "components": {
       "minecraft:icon": "xassassin:spell_scroll",
       "minecraft:display_name": {
-        "value": "Fang Line Spell Scroll"
+        "value": "Wind Dash Spell Scroll"
       },
       "minecraft:max_stack_size": 1,
       "minecraft:tags": {
         "tags": [
-          "spellscroll:fang_line"
+          "xassassin:spell_scroll",
+          "spellscroll:wind_dash"
         ]
       }
     }

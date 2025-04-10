@@ -1,10 +1,11 @@
-import { Container, ContainerSlot, EntityComponentTypes, EntityEquippableComponent, EntityInventoryComponent, EquipmentSlot, ItemStack, Player, PlayerCursorInventoryComponent } from "@minecraft/server";
+import { Container, ContainerSlot, EntityComponentTypes, EntityEquippableComponent, EntityInventoryComponent, EquipmentSlot, ItemStack, Player, PlayerCursorInventoryComponent, world } from "@minecraft/server";
 import { SpellBook } from "./Definitions/SpellBookDef";
 import { SpellBookTag } from "./Lists/SpellBooksList";
 import { SpellFunctionsMap } from "./Lists/SpellsList";
 import { PlayerObject } from "./Definitions/PlayerDef";
 import { PlayerObjectsMap } from "./Player";
 import { Spell } from "./Definitions/SpellDef";
+import { SpellScrollTag } from "./Lists/SpellScrollsList";
 
 
 
@@ -18,7 +19,7 @@ class PlayerUtil {
         if(playerObject !== undefined) { return playerObject; }
         //else...
         console.error(`player ${player.name} does not have a PlayerObject! Creating a new PlayerObject.`);
-        const newPlayerObject = new PlayerObject(player.id);
+        const newPlayerObject = new PlayerObject(player);
         PlayerObjectsMap.set(player.id, newPlayerObject);
         return newPlayerObject;
     }
@@ -59,7 +60,7 @@ class PlayerUtil {
      * @param {Player} player 
      * @returns {ItemStack|undefined}
      */
-    static getSelectedItemStack(player) {
+    static getMainhandItemStack(player) {
         const inv = player.getComponent(EntityComponentTypes.Inventory);
         if(inv === undefined) { return undefined; }
         if(!(inv instanceof EntityInventoryComponent)) { return undefined; }
@@ -73,7 +74,7 @@ class PlayerUtil {
      * @param {Player} player 
      * @returns {ContainerSlot|undefined}
      */
-    static getSelectedContainerSlot(player) {
+    static getMainhandContainerSlot(player) {
         const inv = player.getComponent(EntityComponentTypes.Inventory);
         if(inv === undefined) { return undefined; }
         if(!(inv instanceof EntityInventoryComponent)) { return undefined; }
@@ -122,21 +123,53 @@ class PlayerUtil {
         }
         return false;
     }
+    
+    /**
+     * 
+     * @param {Player} player 
+     * @returns {boolean}
+     */
+    static holdingStaffMainhand(player) {
+        const mainhandItemStack = PlayerUtil.getMainhandItemStack(player);
+        if(mainhandItemStack === undefined) { return false; }
+        if(!mainhandItemStack.getTags().includes("xassassin:magic_staff")) { return false; }
+        return true;
+    }
+    
+    
+    /**
+     * 
+     * @param {Player} player 
+     * @returns {boolean}
+     */
+    static holdingSpellBookMainhand(player) {
+        const mainhandItemStack = PlayerUtil.getMainhandItemStack(player);
+        if(mainhandItemStack === undefined) { return false; }
+        if(!mainhandItemStack.getTags().includes(SpellBookTag)) { return false; }
+        return true;
+    }
 
     /**
      * 
      * @param {Player} player 
      * @returns {boolean}
      */
-    static canCastSpells(player) {
-        const mainhandItemStack = PlayerUtil.getSelectedItemStack(player);
-        if(mainhandItemStack === undefined) { return false; }
-        if(!mainhandItemStack.getTags().includes("xassassin:magic_staff")) { return false; }
+    static holdingSpellBookOffhand(player) {
         const offHandItemStack = PlayerUtil.getOffhandItemStack(player);
         if(offHandItemStack === undefined) { return false; }
-        if(!offHandItemStack.getTags().includes("xassassin:spellbook")) { return false; }
-        const playerObject = PlayerUtil.getPlayerObject(player);
-        if(!playerObject.playerState.canCastSpells) { return false; }
+        if(!offHandItemStack.getTags().includes(SpellBookTag)) { return false; }
+        return true;
+    }
+
+    /**
+     * 
+     * @param {Player} player 
+     * @returns {boolean}
+     */
+    static holdingSpellScrollMainhand(player) {
+        const mainhandItemStack = PlayerUtil.getMainhandItemStack(player);
+        if(mainhandItemStack === undefined) { return false; }
+        if(!mainhandItemStack.getTags().includes(SpellScrollTag)) { return false; }
         return true;
     }
 }
@@ -236,7 +269,7 @@ class SpellBookUtil {
 
     
     /**
-     * This function automatically sets the player's container slot to the spellbook with the dynamic property appended.
+     * This function automatically sets the player's container slot to the spell_book with the dynamic property appended.
      * Also returns the new containerSlot if needed.
      * @param {ContainerSlot} spellBookContainerSlot - we must use containerSlot if we want to use dynamicProperties. It behaves the same as ItemStacks.
      * @param {SpellBook} spellBookObject
@@ -244,7 +277,7 @@ class SpellBookUtil {
      */
     static setSpellBookObject(spellBookContainerSlot, spellBookObject) {
         if(!spellBookContainerSlot.hasTag(SpellBookTag)) {
-            console.warn(`Item ${spellBookContainerSlot.typeId} is not a spellbook, but we are trying to set a SpellBookObject on it.`);
+            console.warn(`Item ${spellBookContainerSlot.typeId} is not a spell_book, but we are trying to set a SpellBookObject on it.`);
             return;
         }
         const string = JSON.stringify(spellBookObject);
@@ -289,6 +322,24 @@ class SpellBookUtil {
     }
 }
 
+class InitializationUtil {
+    /**
+     * 
+     * @returns {number} a unique spellBook id, starting from 0 and increasing as the world progresses.
+     */
+    static getNextUniqueSpellBookId() {
+        const currentId = Number(world.getDynamicProperty("uniqueSpellBookId"));
+        if(!Number.isNaN(currentId)) {
+            world.setDynamicProperty("uniqueSpellBookId", currentId+1);
+            return currentId+1;
+        }
+        else {
+            world.setDynamicProperty("uniqueSpellBookId", 0);
+            return 0;
+        }
+    }
+}
+
 class StringUtil {
     /**
      * Example: `windDash` --> `Wind Dash`
@@ -323,4 +374,5 @@ class JSONUtil {
         return spellBook;
     }
 }
-export { PlayerUtil, SpellUtil, SpellBookUtil, StringUtil };
+
+export { PlayerUtil, SpellUtil, SpellBookUtil, StringUtil, InitializationUtil };

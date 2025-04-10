@@ -49,12 +49,15 @@ class SpellBook {
 
 
     incrementSelectedSlot() {
-        if(this.#selectedSlot === this.#spells.length - 1) {
-            this.#selectedSlot = 0;
+        for(let i=1; i<this.tier; i++) {
+            let nextSlot = (this.#selectedSlot+i) % this.tier;
+            if(this.#spells[nextSlot].tag !== emptySpell.tag) {
+                this.#selectedSlot = nextSlot;
+                console.log(`new selected slot: ${this.#selectedSlot}`);
+                return;
+            }
         }
-        else {
-            this.#selectedSlot++;
-        }
+        console.log(`new selected slot: ${this.#selectedSlot}`);
     }
 
     /**
@@ -73,7 +76,30 @@ class SpellBook {
      * @returns {Spell}
      */
     getSelectedSpell() {
-        console.log(`SpellBook.getSelectedSpell() returning spell #${this.#selectedSlot}, ${this.#spells[this.#selectedSlot].tag}`);
+        return this.#spells[this.#selectedSlot];
+    }
+    /**
+     * @returns {Spell}
+     */
+    getPreviousSpell() {
+        for(let i=1; i<this.tier; i++) {
+            const nextPrevSpell = this.#spells[(this.#selectedSlot+(this.tier-i)) % this.tier];
+            if(nextPrevSpell.tag !== emptySpell.tag) {
+                return nextPrevSpell;
+            }
+        }
+        return this.#spells[this.#selectedSlot];
+    }
+    /**
+     * @returns {Spell}
+     */
+    getNextSpell() {
+        for(let i=1; i<this.tier; i++) {
+            const nextSpell = this.#spells[(this.#selectedSlot+i) % this.tier];
+            if(nextSpell.tag !== emptySpell.tag) {
+                return nextSpell;
+            }
+        }
         return this.#spells[this.#selectedSlot];
     }
 

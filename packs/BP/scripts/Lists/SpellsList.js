@@ -67,7 +67,7 @@ function fangLineExitFunction(player, chargeLevel) {
  * @param {Player} player 
  * @param {number} chargeLevel 
  */
-function minorHealingSpellExitFunction(player, chargeLevel) {
+function minorHealingExitFunction(player, chargeLevel) {
     player.addEffect("regeneration", 200, { amplifier: 1 });
     if (chargeLevel >= 2) {
         const radius = chargeLevel === 3 ? 8 : 5;
@@ -249,41 +249,12 @@ const SpellFunctionsList = [
     none,
     fangAttackExitFunction,
     fangLineExitFunction,
-    minorHealingSpellExitFunction,
+    minorHealingExitFunction,
     woololoEnterFunction,
     woololoExitFunction,
     fireballExitFunction,
     windDashExitFunction
 ]
-
-
-
-
-/**
- * @typedef {object} SpellNamesDef 
- * @property {string} empty
- * @property {string} fangAttack
- * @property {string} fangLine
- * @property {string} minorHealingSpell
- * @property {string} woololo
- * @property {string} fireball
- * @property {string} windDash
- */
-/** 
- * This is only used as a placeholder. Should be removed after refactoring.
- * @type {SpellNamesDef} 
- */
-const SpellNamesList = {
-    empty: "Empty Spell Slot",
-    fangAttack: "Fang Attack",
-    fangLine: "Fang Line",
-    minorHealingSpell: "Minor Healing Spell",
-    woololo: "Woololo",
-    fireball: "Fireball",
-    windDash: "Wind Dash"
-}
-
-
 
 
 /**@type {SpellsDef.Spell} */
@@ -308,7 +279,7 @@ const Spells = [
         enhanceItems: []
     },
     {
-        tag: "minorHealingSpell",
+        tag: "minorHealing",
         enterFuncName: "none",
         spellFuncName: "minorHealingSpellExitFunction",
         enhanceItems: []
@@ -351,4 +322,4 @@ Spells.forEach(spell => {
 
 
 
-export { SpellNamesList, emptySpell, SpellFunctionsMap, SpellObjects };
+export { emptySpell, SpellFunctionsMap, SpellObjects };

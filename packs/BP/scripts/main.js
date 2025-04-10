@@ -4,5 +4,6 @@ import './inkQuill.js';
 import './spellBook.js';
 
 import './Player.js';
-import './SpellBookInitializer.js';
-import './SpellCasting.js';
+import './Initializers/SpellBookInitializer.js';
+import './SpellCast/SpellCast.js';
+import './SpellChange/SpellChange.js';

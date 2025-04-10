@@ -1,9 +1,9 @@
-import * as SpellBookDef from "../Definitions/SpellBookDef";
-import { emptySpell, SpellNamesList, SpellObjects } from "./SpellsList";
+import * as Def from "../Definitions/SpellBookDef";
+import { emptySpell, SpellObjects } from "./SpellsList";
 
-const SpellBookTag = "xassassin:spellbook";
+const SpellBookTag = "xassassin:spell_book";
 
-/**@type {SpellBookDef.SpellBookDef[]} */
+/**@type {Def.SpellBookDef[]} */
 const SpellBooks = [
     {
         tag: "xassassin:leather_spell_book",
@@ -40,15 +40,15 @@ const SpellBooks = [
         tier: 3,
         inherentSpells: [
             SpellObjects.get("fangAttack")??emptySpell,
-            SpellObjects.get("minorHealingSpell")??emptySpell,
+            SpellObjects.get("minorHealing")??emptySpell,
             SpellObjects.get("woololo")??emptySpell
         ]
     }
 ]
-/** @type {Map<string, SpellBookDef.SpellBook>} */
+/** @type {Map<string, Def.SpellBook>} */
 const SpellBookObjects = new Map();
 SpellBooks.forEach(spellBook => {
-    SpellBookObjects.set(spellBook.tag, new SpellBookDef.SpellBook(spellBook));
+    SpellBookObjects.set(spellBook.tag, new Def.SpellBook(spellBook));
 });
 
 
@@ -62,7 +62,7 @@ SpellBooks.forEach(spellBook => {
 
 /** 
  * @typedef {object} BaseSpellBooks
- * @property {string} spellbook
+ * @property {string} spell_book
  * @property {string} evoker_spell_book
  */
 
@@ -71,7 +71,7 @@ SpellBooks.forEach(spellBook => {
  */
 /* Deprecated for now
 const SpellBooksList = {
-    spellbook: "xassassin:spellbook",
+    spell_book: "xassassin:spell_book",
     evoker_spell_book: "xassassin:evoker_spell_book",
 
     [Symbol.iterator]: function* () {

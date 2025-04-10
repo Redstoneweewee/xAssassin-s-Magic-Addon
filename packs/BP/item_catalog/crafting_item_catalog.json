@@ -22,7 +22,7 @@
           {
             "group_identifier": {
               "icon": "xassassin:leather_spell_book",
-              "name": "xassassin:spellbook"
+              "name": "xassassin:spell_book"
             },
             "items": [
               "xassassin:leather_spell_book",

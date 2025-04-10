@@ -19,7 +19,7 @@
       "minecraft:tags": {
         "tags": [
           "minecraft:is_tool",
-          "xassassin:spellbook",
+          "xassassin:spell_book",
           "xassassin:tier_4",
           "minecraft:bookshelf_books"
         ]
