@@ -233,6 +233,99 @@ function windDash(player, chargeLevel) {
         }
     }, 10);
 }
+/**
+ * @param {Player} player 
+ * @param {number} chargeLevel 
+ */
+function sonicBlast(player, chargeLevel) {
+    const sonicDirection = player.getViewDirection();
+    const sonicMaxRange = 30;
+    const sonicDamage = chargeLevel === 1 ? 8 : chargeLevel === 2 ? 16 : 24;
+    const sonicStepSize = 0.5;
+    let sonicDistance = 2;
+    let sonicImpactLoc = null;
+    let lastParticleLoc = null;
+
+    while (sonicDistance < sonicMaxRange) {
+        const x = player.location.x + sonicDirection.x * sonicDistance;
+        const y = player.location.y + 1.6 + sonicDirection.y * sonicDistance;
+        const z = player.location.z + sonicDirection.z * sonicDistance;
+
+        player.dimension.spawnParticle("minecraft:sonic_explosion", { x, y, z });
+        lastParticleLoc = { x, y, z };
+
+        const block = player.dimension.getBlock({
+            x: Math.floor(x),
+            y: Math.floor(y),
+            z: Math.floor(z)
+        });
+
+        if (block && !block.isAir && !["minecraft:water", "minecraft:lava"].includes(block.typeId)) {
+            sonicImpactLoc = { x, y, z };
+            break;
+        }
+
+        const entities = player.dimension.getEntities({
+            location: { x, y, z },
+            maxDistance: 2,
+            excludeTypes: ["minecraft:item", "minecraft:xp_orb"],
+            excludeEntities: [player.id]
+        });
+
+        for (const entity of entities) {
+            if (entity.hasComponent("minecraft:health") && entity.isValid() && entity.id !== player.id) {
+                entity.applyDamage(sonicDamage, { cause: "magic" });
+                sonicImpactLoc = { x, y, z };
+                break;
+            }
+        }
+
+        if (sonicImpactLoc) break;
+        sonicDistance += sonicStepSize;
+    }
+
+    if (sonicImpactLoc) {
+        if (chargeLevel === 3) {
+            player.dimension.createExplosion(sonicImpactLoc, 5, { causesFire: false, breaksBlocks: true });
+        }
+
+        const knockbackRadius = 6;
+        const knockbackStrength = chargeLevel === 1 ? 3 : chargeLevel * 2.4;
+        const entities = player.dimension.getEntities({
+            location: sonicImpactLoc,
+            maxDistance: knockbackRadius,
+            excludeTypes: ["minecraft:item", "minecraft:xp_orb"],
+            excludeEntities: [player.id]
+        });
+
+        for (const entity of entities) {
+            if (entity.hasComponent("minecraft:health") && entity.isValid() && entity.id !== player.id) {
+                const dx = entity.location.x - sonicImpactLoc.x;
+                const dz = entity.location.z - sonicImpactLoc.z;
+                const distance = Math.sqrt(dx * dx + dz * dz);
+                if (distance > 0) {
+                    const knockbackX = (dx / distance) * knockbackStrength;
+                    const knockbackZ = (dz / distance) * knockbackStrength;
+                    entity.applyKnockback(knockbackX, knockbackZ, knockbackStrength, 0.5);
+                }
+            }
+        }
+
+        const dx = player.location.x - sonicImpactLoc.x;
+        const dz = player.location.z - sonicImpactLoc.z;
+        const distance = Math.sqrt(dx * dx + dz * dz);
+        if (distance <= knockbackRadius && distance > 0) {
+            const knockbackX = (dx / distance) * knockbackStrength;
+            const knockbackZ = (dz / distance) * knockbackStrength;
+            const verticalKnockback = player.isOnGround && sonicDirection.y < -0.2 ? chargeLevel * 0.5 : 0.5;
+            player.applyKnockback(knockbackX, knockbackZ, knockbackStrength, verticalKnockback);
+        }
+    } else if (chargeLevel === 3 && lastParticleLoc) {
+        player.dimension.createExplosion(lastParticleLoc, 5, { causesFire: false, breaksBlocks: true });
+    }
+
+    player.playSound("mob.warden.sonic_boom");
+                    }
 
 /**
  * 
@@ -245,8 +338,9 @@ const SpellExitFunctions = [
     minorHealing,
     woololo,
     fireball,
-    windDash
-]
+    windDash,
+    sonicBlast
+];
 
 /**
  * @type {Map<string, SpellFunction>}
