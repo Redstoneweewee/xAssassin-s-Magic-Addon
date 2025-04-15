@@ -3,7 +3,7 @@ import * as Def from "../Definitions/SpellScrollDef";
 const SpellScrollTag = "xassassin:spell_scroll";
 
 /**@type {Def.SpellScrollDef[]} */
-const SpellBooks = [
+const SpellScrolls = [
     {
         tag: "xassassin:fang_line_spell_scroll",
         spellTag: "fangLine"
@@ -23,7 +23,7 @@ const SpellBooks = [
 ]
 /** @type {Map<string, Def.SpellScroll>} */
 const SpellScrollObjects = new Map();
-SpellBooks.forEach(spellScroll => {
+SpellScrolls.forEach(spellScroll => {
     SpellScrollObjects.set(spellScroll.tag, new Def.SpellScroll(spellScroll));
 });
 
