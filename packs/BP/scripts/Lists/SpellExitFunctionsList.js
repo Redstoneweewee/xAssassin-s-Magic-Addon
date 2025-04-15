@@ -220,7 +220,7 @@ function windDash(player, chargeLevel) {
     const dashDirection = player.getViewDirection();
     const strength = chargeLevel * 2;
     if (chargeLevel === 3 && player.isOnGround) {
-        const windCharge = player.dimension.spawnEntity("minecraft:wind_charge_projectile", { x: player.location.x, y: player.location.y + 1.6, z: player.location.z })
+        const windCharge = player.dimension.spawnEntity("minecraft:wind_charge_projectile", { x: player.location.x, y: player.location.y, z: player.location.z })
         windCharge.applyImpulse({ x: 0, y: -1.0, z: 0 })
     }
     system.runTimeout(() => {

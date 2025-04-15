@@ -59,6 +59,14 @@ const Spells = [
         particleFuncName: "windDash",
         exitFuncName: "windDash",
         enhanceItems: []
+    },
+    {
+        tag: "sonicBlast",
+        charge: 16,
+        enterFuncName: "none",
+        particleFuncName: "sonicBlast",
+        exitFuncName: "sonicBlast",
+        enhanceItems: []
     }
 ]
 

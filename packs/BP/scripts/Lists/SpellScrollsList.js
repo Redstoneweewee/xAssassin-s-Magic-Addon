@@ -19,6 +19,10 @@ const SpellScrolls = [
     {
         tag: "xassassin:wind_dash_spell_scroll",
         spellTag: "windDash"
+    },    
+    {
+        tag: "xassassin:charged_sonic_blast_spell_scroll",
+        spellTag: "sonicBlast"
     }
 ]
 /** @type {Map<string, Def.SpellScroll>} */
